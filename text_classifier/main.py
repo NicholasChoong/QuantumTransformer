@@ -21,6 +21,9 @@ from lib.train import train
 from config import dev
 
 
+QUANTUM = True
+
+
 def main():
 
     MAX_SEQ_LEN = 64
@@ -29,16 +32,16 @@ def main():
     n_epochs = 5
     lr = 0.001
 
-    embed_dim = 2
+    embed_dim = 2 if QUANTUM else 8
     num_heads = 2
     num_blocks = 1
     num_classes = 2
     vocab_size = 20000
     ffn_dim = 8
-    n_qubits_transformer = 2
-    n_qubits_ffn = 2
-    n_qlayers = 1
-    q_device = "default.qubit"
+    n_qubits_transformer = 2 if QUANTUM else 0
+    n_qubits_ffn = 2 if QUANTUM else 0
+    n_qlayers = 1 if QUANTUM else 0
+    q_device = "default.qubit.torch"
     dropout_rate = 0.1
 
     train_iter = IMDB(root="./.datatext", split="train")
