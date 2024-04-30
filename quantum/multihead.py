@@ -38,7 +38,7 @@ class MultiHeadedAttention(nn.Module):
         elif "braket" in q_device:
             self.dev = qml.device(q_device, wires=self.n_qubits, parallel=True)
         else:
-            self.dev = qml.device(q_device, wires=self.n_qubits)
+            self.dev = qml.device(q_device, wires=self.n_qubits, torch_device="cuda")
 
         @qml.qnode(self.dev, interface="torch")
         def qlayer(inputs, weights):
