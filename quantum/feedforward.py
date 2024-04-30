@@ -47,6 +47,7 @@ class FeedForward(nn.Module):
 
         self.weight_shapes = {"weights": (n_qlayers, n_qubits)}
         self.vqc = TorchLayer(self.qlayer, self.weight_shapes)
+        self.gelu = nn.GELU()
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x: Tensor):
@@ -54,6 +55,7 @@ class FeedForward(nn.Module):
         x = self.linear_1(x)
         X = [self.vqc(x[:, t, :]) for t in range(seq_len)]
         x = torch.Tensor(pad_sequence(X))
-        # x = self.dropout(x)
+        x = self.gelu(x)
+        x = self.dropout(x)
         x = self.linear_2(x)
         return x

@@ -23,9 +23,6 @@ class MultiHeadedAttention(nn.Module):
         q_device="default.qubit",
     ):
         super(MultiHeadedAttention, self).__init__()
-        assert (
-            n_qubits == embed_dim
-        ), "Number of qubits ({n_qubits}) does not match embedding dim ({embed_dim})"
 
         self.embed_dim = embed_dim
         self.num_heads = num_heads

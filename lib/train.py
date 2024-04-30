@@ -1,16 +1,20 @@
 import torch
 
+
 from lib.binary_accuracy import binary_accuracy
 
-from torchtext.data import BucketIterator
 from torch.nn import Module
+from torch.utils.data import DataLoader
 from torch.nn.modules.loss import _Loss
 from torch.optim import Optimizer
 
 
+from config import dev
+
+
 def train(
     model: Module,
-    iterator: BucketIterator,
+    dataloader: DataLoader,
     optimizer: Optimizer,
     criterion: _Loss,
     max_seq_len: int,
@@ -19,15 +23,16 @@ def train(
     epoch_acc = 0
 
     model.train()
-    for batch in iterator:
-        optimizer.zero_grad()
+    for i, batch in enumerate(dataloader):
 
-        inputs = torch.LongTensor(batch.text[0])
+        optimizer.zero_grad()
+        inputs = torch.LongTensor(batch[1].T).to(dev)
         if inputs.size(1) > max_seq_len:
             inputs = inputs[:, :max_seq_len]
+        model.to(dev)
         predictions = model(inputs).squeeze(1)
 
-        label = batch.label - 1
+        label = batch[0].to(dev)
         # label = label.unsqueeze(1)
         loss = criterion(predictions, label)
         # loss = F.nll_loss(predictions, label)
@@ -39,4 +44,4 @@ def train(
         epoch_loss += loss.item()
         epoch_acc += acc.item()
 
-    return epoch_loss / len(iterator), epoch_acc / len(iterator)
+    return epoch_loss / len(dataloader.dataset), epoch_acc / len(dataloader.dataset)

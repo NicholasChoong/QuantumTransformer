@@ -27,7 +27,7 @@ class Encoder(nn.Module):
         self.dropout2 = nn.Dropout(dropout)
 
     def forward(self, x: Tensor):
-        attn_output: Tensor = self.attn(x)
+        attn_output: Tensor = self.attn(x, x, x)
         x = self.norm1(attn_output + x)
         x = self.dropout1(x)
 

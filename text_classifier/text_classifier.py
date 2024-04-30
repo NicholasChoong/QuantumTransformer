@@ -3,9 +3,11 @@ import torch.nn as nn
 from torch import Tensor
 
 from lib.clone import get_clones
-from classic.core.positional_encoding import PositionalEncoder
-from classic.core.encoder import Encoder
-from quantum.core.encoder import Encoder as QuantumEncoder
+from classic.positional_encoding import PositionalEncoder
+
+# from classic.positional_encoding import PyTorchPositionalEncoding as PositionalEncoder
+from classic.encoder import Encoder
+from quantum.encoder import Encoder as QuantumEncoder
 
 
 class TextClassifier(nn.Module):
@@ -21,7 +23,7 @@ class TextClassifier(nn.Module):
         n_qubits_transformer=0,
         n_qubits_ffn=0,
         n_qlayers=1,
-        q_device="device.qubit",
+        q_device="default.qubit",
     ):
         super(TextClassifier, self).__init__()
         self.embed_dim = embed_dim
