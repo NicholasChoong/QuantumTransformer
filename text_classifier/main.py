@@ -34,7 +34,7 @@ def main():
 
     embed_dim = 2 if QUANTUM else 8
     num_heads = 2
-    num_blocks = 1
+    num_blocks = 2
     num_classes = 2
     vocab_size = 20000
     ffn_dim = 8
@@ -50,16 +50,16 @@ def main():
     train_data = to_map_style_dataset(train_iter)
     test_data = to_map_style_dataset(test_iter)
 
-    # size = 320
-    # train_data = np.array(train_data)[
-    #     np.random.choice(len(train_data), size=size, replace=False)
-    # ].tolist()
-    # test_data = np.array(test_data)[
-    #     np.random.choice(len(test_data), size=size, replace=False)
-    # ].tolist()
+    size = 3200
+    train_data = np.array(train_data)[
+        np.random.choice(len(train_data), size=size, replace=False)
+    ].tolist()
+    test_data = np.array(test_data)[
+        np.random.choice(len(test_data), size=size, replace=False)
+    ].tolist()
 
-    # train_data = [(int(label), text) for label, text in train_data]
-    # test_data = [(int(label), text) for label, text in test_data]
+    train_data = [(int(label), text) for label, text in train_data]
+    test_data = [(int(label), text) for label, text in test_data]
 
     tokenizer = get_tokenizer("basic_english")
 
