@@ -3,9 +3,10 @@ import torch.nn as nn
 from torch import Tensor
 
 from lib.clone import get_clones
-from classic.positional_encoding import PositionalEncoder
 
-# from classic.positional_encoding import PyTorchPositionalEncoding as PositionalEncoder
+# from classic.positional_encoding import PositionalEncoder
+
+from classic.positional_encoding import PyTorchPositionalEncoding as PositionalEncoder
 from classic.encoder import Encoder
 from quantum.encoder import Encoder as QuantumEncoder
 
@@ -101,5 +102,4 @@ class TextClassifier(nn.Module):
         x = x.mean(dim=1)  # global average pooling, works in 1D
         x = self.dropout(x)
         x = self.class_logits(x)
-        # x = x.log_softmax(dim=1)
         return x
