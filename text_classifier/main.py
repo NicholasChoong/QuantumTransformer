@@ -21,7 +21,7 @@ from lib.train import train
 from config import dev
 
 
-QUANTUM = True
+QUANTUM = False
 
 
 def main():
@@ -29,12 +29,12 @@ def main():
     MAX_SEQ_LEN = 64
 
     batch_size = 32
-    n_epochs = 5
+    n_epochs = 20
     lr = 0.001
 
     embed_dim = 2 if QUANTUM else 8
     num_heads = 2
-    num_blocks = 2
+    num_blocks = 1
     num_classes = 2
     vocab_size = 20000
     ffn_dim = 8
@@ -50,16 +50,19 @@ def main():
     train_data = to_map_style_dataset(train_iter)
     test_data = to_map_style_dataset(test_iter)
 
-    size = 3200
-    train_data = np.array(train_data)[
-        np.random.choice(len(train_data), size=size, replace=False)
-    ].tolist()
-    test_data = np.array(test_data)[
-        np.random.choice(len(test_data), size=size, replace=False)
-    ].tolist()
+    # size = 3200
+    # train_data = np.array(train_data)[
+    #     np.random.choice(len(train_data), size=size, replace=False)
+    # ].tolist()
+    # test_data = np.array(test_data)[
+    #     np.random.choice(len(test_data), size=size, replace=False)
+    # ].tolist()
 
-    train_data = [(int(label), text) for label, text in train_data]
-    test_data = [(int(label), text) for label, text in test_data]
+    # train_data = [(int(label), text) for label, text in train_data]
+    # test_data = [(int(label), text) for label, text in test_data]
+
+    print("pos: ", len([label for label, text in train_data if label == 1]))
+    print("neg: ", len([label for label, text in train_data if label == 2]))
 
     tokenizer = get_tokenizer("basic_english")
 
@@ -120,7 +123,8 @@ def main():
         criterion = torch.nn.CrossEntropyLoss()  # logits -> log_softmax -> NLLloss
 
     # training loop
-    best_valid_loss = float("inf")
+    best_test_loss = float("inf")
+    train_loss_list, train_acc_list, test_loss_list, test_acc_list = [], [], [], []
     for iepoch in range(n_epochs):
         start_time = time()
 
@@ -129,16 +133,23 @@ def main():
         train_loss, train_acc = train(
             model, train_loader, optimizer, criterion, MAX_SEQ_LEN
         )
-        valid_loss, valid_acc = evaluate(model, test_loader, criterion, MAX_SEQ_LEN)
+        test_loss, test_acc = evaluate(model, test_loader, criterion, MAX_SEQ_LEN)
 
         end_time = time()
 
         epoch_mins, epoch_secs = epoch_time(start_time, end_time)
 
-        if valid_loss < best_valid_loss:
-            best_valid_loss = valid_loss
+        if test_loss < best_test_loss:
+            best_test_loss = test_loss
             torch.save(model.state_dict(), "model.pt")
 
         print(f"Epoch: {iepoch+1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s")
         print(f"\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%")
-        print(f"\t Val. Loss: {valid_loss:.3f} |  Val. Acc: {valid_acc*100:.2f}%")
+        print(f"\t Test Loss: {test_loss:.3f} |  Test Acc: {test_acc*100:.2f}%")
+
+        train_loss_list.append(train_loss)
+        train_acc_list.append(train_acc)
+        test_loss_list.append(test_loss)
+        test_acc_list.append(test_acc)
+
+    return (train_loss_list, train_acc_list, test_loss_list, test_acc_list)
