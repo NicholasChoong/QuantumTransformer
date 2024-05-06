@@ -148,7 +148,7 @@ def main(
 
         print(f"Epoch: {iepoch+1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s")
         print(f"\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%")
-        print(f"\t Test Loss: {test_loss:.3f} |  Test Acc: {test_acc*100:.2f}%")
+        print(f"\tTest Loss: {test_loss:.3f} |  Test Acc: {test_acc*100:.2f}%")
 
         train_loss_list.append(train_loss)
         train_acc_list.append(train_acc)
