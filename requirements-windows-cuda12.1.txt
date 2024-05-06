@@ -37,6 +37,7 @@ nest_asyncio==1.6.0
 networkx==3.2.1
 numpy==1.26.3
 packaging==24.0
+pandas==2.2.2
 parso==0.8.4
 PennyLane==0.35.1
 PennyLane_Lightning==0.35.1
@@ -51,11 +52,13 @@ pure-eval==0.2.2
 Pygments==2.17.2
 pyparsing==3.1.2
 python-dateutil==2.9.0
+pytz==2024.1
 pywin32==305.1
 pyzmq==25.1.2
 requests==2.31.0
 rustworkx==0.14.2
 scipy==1.13.0
+seaborn==0.13.2
 semantic-version==2.10.0
 setuptools==68.2.2
 six==1.16.0
@@ -72,6 +75,7 @@ tornado==6.3.3
 tqdm==4.66.2
 traitlets==5.14.3
 typing_extensions==4.11.0
+tzdata==2024.1
 urllib3==2.2.1
 wcwidth==0.2.13
 wheel==0.41.2
