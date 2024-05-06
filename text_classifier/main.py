@@ -1,6 +1,7 @@
 from time import time
 import numpy as np
 import torch
+import GPUtil
 
 from torch.utils.data import DataLoader
 from torch.nn.utils.rnn import pad_sequence
@@ -133,6 +134,8 @@ def main(
         train_loss, train_acc = train(
             model, train_loader, optimizer, criterion, max_seq_len
         )
+        GPUtil.showUtilization()
+
         test_loss, test_acc = evaluate(model, test_loader, criterion, max_seq_len)
 
         end_time = time()
