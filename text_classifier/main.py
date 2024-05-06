@@ -23,7 +23,6 @@ from config import dev
 
 
 def main(
-    quantum=False,
     max_seq_len=64,
     batch_size=32,
     n_epochs=15,
@@ -41,26 +40,22 @@ def main(
     dropout_rate=0.1,
 ):
 
-    n_qubits_transformer = 2 if quantum else 0
-    n_qubits_ffn = 2 if quantum else 0
-    n_qlayers = 1 if quantum else 0
-
     train_iter = IMDB(root="./.datatext", split="train")
     test_iter = IMDB(root="./.datatext", split="test")
 
     train_data = to_map_style_dataset(train_iter)
     test_data = to_map_style_dataset(test_iter)
 
-    # size = 3200
-    # train_data = np.array(train_data)[
-    #     np.random.choice(len(train_data), size=size, replace=False)
-    # ].tolist()
-    # test_data = np.array(test_data)[
-    #     np.random.choice(len(test_data), size=size, replace=False)
-    # ].tolist()
+    size = 3200
+    train_data = np.array(train_data)[
+        np.random.choice(len(train_data), size=size, replace=False)
+    ].tolist()
+    test_data = np.array(test_data)[
+        np.random.choice(len(test_data), size=size, replace=False)
+    ].tolist()
 
-    # train_data = [(int(label), text) for label, text in train_data]
-    # test_data = [(int(label), text) for label, text in test_data]
+    train_data = [(int(label), text) for label, text in train_data]
+    test_data = [(int(label), text) for label, text in test_data]
 
     print("pos: ", len([label for label, text in train_data if label == 1]))
     print("neg: ", len([label for label, text in train_data if label == 2]))
