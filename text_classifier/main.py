@@ -130,11 +130,10 @@ def main(
         start_time = time()
 
         print(f"Epoch {iepoch+1}/{n_epochs}")
-
         train_loss, train_acc = train(
             model, train_loader, optimizer, criterion, max_seq_len
         )
-        GPUtil.showUtilization()
+        # GPUtil.showUtilization()
 
         test_loss, test_acc = evaluate(model, test_loader, criterion, max_seq_len)
 
