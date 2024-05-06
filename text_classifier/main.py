@@ -21,28 +21,28 @@ from lib.train import train
 from config import dev
 
 
-QUANTUM = False
+def main(
+    quantum=False,
+    max_seq_len=64,
+    batch_size=32,
+    n_epochs=15,
+    lr=0.001,
+    embed_dim=8,
+    num_heads=2,
+    num_blocks=1,
+    num_classes=2,
+    vocab_size=20000,
+    ffn_dim=8,
+    n_qubits_transformer=0,
+    n_qubits_ffn=0,
+    n_qlayers=0,
+    q_device="default.qubit.torch",
+    dropout_rate=0.1,
+):
 
-
-def main():
-
-    MAX_SEQ_LEN = 64
-
-    batch_size = 32
-    n_epochs = 20
-    lr = 0.001
-
-    embed_dim = 2 if QUANTUM else 8
-    num_heads = 2
-    num_blocks = 1
-    num_classes = 2
-    vocab_size = 20000
-    ffn_dim = 8
-    n_qubits_transformer = 2 if QUANTUM else 0
-    n_qubits_ffn = 2 if QUANTUM else 0
-    n_qlayers = 1 if QUANTUM else 0
-    q_device = "default.qubit.torch"
-    dropout_rate = 0.1
+    n_qubits_transformer = 2 if quantum else 0
+    n_qubits_ffn = 2 if quantum else 0
+    n_qlayers = 1 if quantum else 0
 
     train_iter = IMDB(root="./.datatext", split="train")
     test_iter = IMDB(root="./.datatext", split="test")
@@ -131,9 +131,9 @@ def main():
         print(f"Epoch {iepoch+1}/{n_epochs}")
 
         train_loss, train_acc = train(
-            model, train_loader, optimizer, criterion, MAX_SEQ_LEN
+            model, train_loader, optimizer, criterion, max_seq_len
         )
-        test_loss, test_acc = evaluate(model, test_loader, criterion, MAX_SEQ_LEN)
+        test_loss, test_acc = evaluate(model, test_loader, criterion, max_seq_len)
 
         end_time = time()
 
