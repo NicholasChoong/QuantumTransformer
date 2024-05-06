@@ -17,6 +17,7 @@ filelock==3.13.1
 fonttools==4.51.0
 fsspec==2024.2.0
 future==1.0.0
+GPUtil==1.4.0
 idna==3.7
 importlib_metadata==7.1.0
 intel-openmp==2021.4.0
