@@ -1,0 +1,14 @@
+My reasech objective is to undestand, develop and validate a quantum transformer model that integrates variational quantum circuits into its architecture, 
+thereby enhancing learning efficiency and reducing generalisation errors. This will involve:
+1. Analysing the current limitations of classical transformer models in terms of learning efficiency and generalisation.
+2. Designing a quantum transformer architecture that incorporates variational quantum cir- cuits as a core component.
+3. Comparing the performance of the proposed quantum transformer with classical models, focusing on training time and performance metrics.
+4. Assessing the feasibility of the quantum transformer in practical applications, considering both its computational efficiency and the quality of its outputs.
+
+Software Requirements:
+- Anaconda3/2023.09
+- cuda/12.6
+
+Data Requirements:
+- The data used in this project is the IMDB which is a dataset of 25,000 highly-polar movie reviews (good or bad) for training, and 25,000 for testing.
+- MNIST and MedMNIST datasets for Quantum Vision Transformer.
