@@ -23,7 +23,6 @@ from config import dev
 
 
 def main(
-    quantum=False,
     max_seq_len=64,
     batch_size=32,
     n_epochs=15,
@@ -40,10 +39,6 @@ def main(
     q_device="default.qubit.torch",
     dropout_rate=0.1,
 ):
-
-    n_qubits_transformer = 2 if quantum else 0
-    n_qubits_ffn = 2 if quantum else 0
-    n_qlayers = 1 if quantum else 0
 
     train_iter = IMDB(root="./.datatext", split="train")
     test_iter = IMDB(root="./.datatext", split="test")
