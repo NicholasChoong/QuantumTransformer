@@ -51,16 +51,16 @@ def main(
     train_data = to_map_style_dataset(train_iter)
     test_data = to_map_style_dataset(test_iter)
 
-    # size = 3200
-    # train_data = np.array(train_data)[
-    #     np.random.choice(len(train_data), size=size, replace=False)
-    # ].tolist()
-    # test_data = np.array(test_data)[
-    #     np.random.choice(len(test_data), size=size, replace=False)
-    # ].tolist()
+    size = 3200
+    train_data = np.array(train_data)[
+        np.random.choice(len(train_data), size=size, replace=False)
+    ].tolist()
+    test_data = np.array(test_data)[
+        np.random.choice(len(test_data), size=size, replace=False)
+    ].tolist()
 
-    # train_data = [(int(label), text) for label, text in train_data]
-    # test_data = [(int(label), text) for label, text in test_data]
+    train_data = [(int(label), text) for label, text in train_data]
+    test_data = [(int(label), text) for label, text in test_data]
 
     print("pos: ", len([label for label, text in train_data if label == 1]))
     print("neg: ", len([label for label, text in train_data if label == 2]))
