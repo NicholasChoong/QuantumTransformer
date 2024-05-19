@@ -38,25 +38,6 @@ class TextClassifier(nn.Module):
 
         print(f"++ There will be {num_blocks} transformer blocks")
 
-        # transformer_blocks = [
-        #       QuantumEncoder(
-        #           embed_dim,
-        #           num_heads,
-        #           ffn_dim,
-        #           n_qubits_transformer=n_qubits_transformer,
-        #           n_qubits_ffn=n_qubits_ffn,
-        #           n_qlayers=n_qlayers,
-        #           q_device=q_device,
-        #       )
-        #       for _ in range(num_blocks)
-        #   ]
-
-        # transformer_blocks = [
-        #     Encoder(embed_dim, num_heads, ffn_dim) for _ in range(num_blocks)
-        # ]
-
-        # self.transformers = nn.Sequential(*transformer_blocks)
-
         if n_qubits_transformer > 0:
             print(
                 f"++ Transformer will use {n_qubits_transformer} qubits and {n_qlayers} q layers"
@@ -84,18 +65,13 @@ class TextClassifier(nn.Module):
             self.transformers = get_clones(
                 Encoder(embed_dim, num_heads, ffn_dim), num_blocks
             )
-
-        if self.num_classes > 2:
-            self.class_logits = nn.Linear(embed_dim, num_classes)
-        else:
-            self.class_logits = nn.Linear(embed_dim, 1)
+        self.class_logits = nn.Linear(embed_dim, 1)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x: Tensor):
         tokens = self.token_embedding(x)
         x = self.pos_embedding(tokens)
 
-        # x = self.transformers(x)
         for transformer in self.transformers:
             x = transformer(x)
 

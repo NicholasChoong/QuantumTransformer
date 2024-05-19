@@ -113,10 +113,7 @@ def main(
     model.to(dev)
 
     optimizer = torch.optim.Adam(lr=lr, params=model.parameters())
-    if num_classes < 3:
-        criterion = torch.nn.BCEWithLogitsLoss()  # logits -> sigmoid -> loss
-    else:
-        criterion = torch.nn.CrossEntropyLoss()  # logits -> log_softmax -> NLLloss
+    criterion = torch.nn.BCEWithLogitsLoss()  # logits -> sigmoid -> loss
 
     # training loop
     best_test_loss = float("inf")
