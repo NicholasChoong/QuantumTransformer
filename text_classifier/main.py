@@ -25,6 +25,7 @@ from config import dev
 def main(
     max_seq_len=64,
     batch_size=32,
+    total_size=3200,
     n_epochs=15,
     lr=0.001,
     embed_dim=8,
@@ -46,7 +47,7 @@ def main(
     train_data = to_map_style_dataset(train_iter)
     test_data = to_map_style_dataset(test_iter)
 
-    size = 3200
+    size = total_size
     train_data = np.array(train_data)[
         np.random.choice(len(train_data), size=size, replace=False)
     ].tolist()
