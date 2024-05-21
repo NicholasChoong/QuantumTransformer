@@ -37,8 +37,10 @@ class FeedForward(nn.Module):
             self.dev = qml.device(q_device, wires=self.n_qubits, torch_device="cuda")
 
         def _circuit(inputs, weights):
-            templates.AngleEmbedding(inputs, wires=range(self.n_qubits))
-            templates.BasicEntanglerLayers(weights, wires=range(n_qubits))
+            templates.AngleEmbedding(inputs, wires=range(n_qubits), rotation="Z")
+            templates.BasicEntanglerLayers(
+                weights, wires=range(n_qubits), rotation=qml.RZ
+            )
             return [qml.expval(qml.PauliZ(wires=i)) for i in range(n_qubits)]
 
         self.linear_1 = nn.Linear(embed_dim, self.ffn_dim)
