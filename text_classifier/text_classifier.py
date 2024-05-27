@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 from torch import Tensor
@@ -71,6 +72,14 @@ class TextClassifier(nn.Module):
     def forward(self, x: Tensor):
         tokens = self.token_embedding(x)
         x = self.pos_embedding(tokens)
+
+        # # Normalise the data to range [0, 2*pi]
+        # min_val = x.min()
+        # max_val = x.max()
+
+        # x = (x - min_val) / (max_val - min_val) * (2 * torch.pi)
+
+        # print(f"Minimum value: {x.min()}, Maximum value: {x.max()}")
 
         for transformer in self.transformers:
             x = transformer(x)
