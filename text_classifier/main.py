@@ -10,7 +10,6 @@ from torchtext.datasets import IMDB
 from torchtext.data.utils import get_tokenizer
 from torchtext.data.functional import to_map_style_dataset
 from torchtext.vocab import build_vocab_from_iterator
-from zmq import device
 
 from text_classifier.text_classifier import TextClassifier
 from lib.data_loader import yield_tokens, collate_batch, batch_sampler
