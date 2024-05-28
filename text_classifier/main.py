@@ -22,14 +22,14 @@ from config import dev
 
 
 def main(
-    max_seq_len=256,
-    batch_size=128,
+    max_seq_len=128,
+    batch_size=64,
     total_size=3200,
     n_epochs=30,
     lr=0.001,
     embed_dim=8,
-    num_heads=4,
-    num_blocks=6,
+    num_heads=2,
+    num_blocks=2,
     num_classes=2,
     vocab_size=50000,
     ffn_dim=8,
