@@ -71,7 +71,7 @@ torchaudio==2.2.2+cu121
 torchdata==0.7.1
 torchtext==0.17.2
 torchvision==0.17.2+cu121
-tornado==6.3.3
+tornado==6.4.1
 tqdm==4.66.2
 traitlets==5.14.3
 typing_extensions==4.11.0
