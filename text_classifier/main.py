@@ -36,7 +36,7 @@ def main(
     n_qubits_transformer=0,
     n_qubits_ffn=0,
     n_qlayers=0,
-    q_device="default.qubit.torch",
+    q_device="default.qubit",
     dropout_rate=0.1,
 ):
 
