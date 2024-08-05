@@ -27,14 +27,9 @@ class FeedForward(nn.Module):
         super(FeedForward, self).__init__()
         self.embed_dim = embed_dim
         self.ffn_dim = n_qubits
-
         self.n_qubits = n_qubits
-        if "qulacs" in q_device:
-            self.dev = qml.device(q_device, wires=self.n_qubits, gpu=True)
-        elif "braket" in q_device:
-            self.dev = qml.device(q_device, wires=self.n_qubits, parallel=True)
-        else:
-            self.dev = qml.device(q_device, wires=self.n_qubits, torch_device="cuda")
+
+        self.dev = qml.device(q_device, wires=self.n_qubits, torch_device="cuda")
 
         def _circuit(inputs, weights):
             templates.AngleEmbedding(inputs, wires=range(n_qubits), rotation="Z")
