@@ -19,6 +19,7 @@ def train(
     optimizer: Optimizer,
     criterion: _Loss,
     max_seq_len: int,
+    progress_bar,
 ):
     epoch_loss = []
     epoch_acc = []
@@ -44,6 +45,7 @@ def train(
 
         epoch_loss.append(loss.item())
         epoch_acc.append(acc.item())
+        progress_bar.update(dataloader.batch_size)
 
     # print(epoch_loss, epoch_acc, len(dataloader.dataset))
 

@@ -18,6 +18,8 @@ from lib.eval import evaluate
 from lib.parameter_count import count_parameters
 from lib.train import train
 
+from tqdm.notebook import tqdm
+
 from config import dev
 
 
@@ -46,13 +48,13 @@ def main(
     train_data = to_map_style_dataset(train_iter)
     test_data = to_map_style_dataset(test_iter)
 
-    # size = total_size
-    # train_data = np.array(train_data)[
-    #     np.random.choice(len(train_data), size=size, replace=False)
-    # ].tolist()
-    # test_data = np.array(test_data)[
-    #     np.random.choice(len(test_data), size=size, replace=False)
-    # ].tolist()
+    size = total_size
+    train_data = np.array(train_data)[
+        np.random.choice(len(train_data), size=size, replace=False)
+    ].tolist()
+    test_data = np.array(test_data)[
+        np.random.choice(len(test_data), size=size, replace=False)
+    ].tolist()
 
     train_data = [(int(label), text) for label, text in train_data]
     test_data = [(int(label), text) for label, text in test_data]
@@ -110,6 +112,8 @@ def main(
     )
     print(f"The model has {count_parameters(model):,} trainable parameters")
 
+    start_time = time()
+
     model.to(dev)
 
     optimizer = torch.optim.Adam(lr=lr, params=model.parameters())
@@ -117,33 +121,53 @@ def main(
 
     # training loop
     best_test_loss = float("inf")
+    best_test_acc, best_epoch = 0.0, 0
     train_loss_list, train_acc_list, test_loss_list, test_acc_list = [], [], [], []
+
     for iepoch in range(n_epochs):
-        start_time = time()
+        with tqdm(
+            total=len(train_loader.dataset),
+            desc=f"Epoch {iepoch+1:3}/{n_epochs}",
+            unit="batch",
+            bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}",
+            position=0,
+            leave=True,
+        ) as progress_bar:
+            operation_start_time = time()
 
-        print(f"Epoch {iepoch+1}/{n_epochs}")
-        train_loss, train_acc = train(
-            model, train_loader, optimizer, criterion, max_seq_len
-        )
-        GPUtil.showUtilization()
+            print(f"Epoch {iepoch+1}/{n_epochs}")
+            train_loss, train_acc = train(
+                model, train_loader, optimizer, criterion, max_seq_len, progress_bar
+            )
+            # GPUtil.showUtilization()
 
-        test_loss, test_acc = evaluate(model, test_loader, criterion, max_seq_len)
+            test_loss, test_acc = evaluate(model, test_loader, criterion, max_seq_len)
 
-        end_time = time()
+            end_time = time()
 
-        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+            epoch_mins, epoch_secs = epoch_time(operation_start_time, end_time)
 
-        if test_loss < best_test_loss:
-            best_test_loss = test_loss
-            torch.save(model.state_dict(), "model.pt")
+            # if test_loss < best_test_loss:
+            #     best_test_loss = test_loss
+            #     torch.save(model.state_dict(), "model.pt")
 
-        print(f"Epoch: {iepoch+1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s")
-        print(f"\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%")
-        print(f"\tTest Loss: {test_loss:.3f} |  Test Acc: {test_acc*100:.2f}%")
+            print(f"Epoch: {iepoch+1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s")
+            print(f"\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%")
+            print(f"\tTest Loss: {test_loss:.3f} |  Test Acc: {test_acc*100:.2f}%")
 
-        train_loss_list.append(train_loss)
-        train_acc_list.append(train_acc)
-        test_loss_list.append(test_loss)
-        test_acc_list.append(test_acc)
+            train_loss_list.append(train_loss)
+            train_acc_list.append(train_acc)
+            test_loss_list.append(test_loss)
+            test_acc_list.append(test_acc)
+
+            progress_bar.set_postfix_str(
+                f"Loss = {test_loss:.4f}, AUC = {test_acc:.2f}%"
+            )
+            if test_acc > best_test_acc:
+                best_test_acc = test_acc
+                best_epoch = iepoch + 1
+
+    print(f"TOTAL TIME = {time.time()-start_time:.2f}s")
+    print(f"BEST ACC = {best_test_acc:.2f}% AT EPOCH {best_epoch}")
 
     return (train_loss_list, train_acc_list, test_loss_list, test_acc_list)
