@@ -27,7 +27,7 @@ conda activate quant
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-SCRIPT=notebook/2_angle_rz_basic_qvc.ipynb
+SCRIPT=2_angle_rz_basic_qvc_slurm.ipynb
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
 RESULTS=$MYGROUP/QuantumTransformer/conda_results
@@ -56,7 +56,7 @@ echo "SLURM_SUBMIT_DIR is"
 echo ${SLURM_SUBMIT_DIR}
 
 # copy the mothur analysis script to SCRATCH
-cp ${SCRIPT} ${SCRATCH}
+cp notebook/${SCRIPT} ${SCRATCH}
 
 # go to the /scratch... directory and create symbolic links to the
 # files for the CIFAR-10 dataset and a link to Du's data_loader.py.
