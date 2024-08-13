@@ -1,10 +1,12 @@
 #!/bin/bash -l
-#SBATCH --job-name=qt-train
+#SBATCH --job-name=qt-train-adv
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
 #SBATCH --gres=gpu:v100:1
 #SBATCH --export=ALL
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=21980614@student.uwa.edu.au
 
 start_time=$(date)
 
