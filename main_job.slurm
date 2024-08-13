@@ -1,9 +1,9 @@
 #!/bin/bash -l
-#SBATCH --job-name=qt-train-adv
+#SBATCH --job-name=qt-train-qcpu
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
-#SBATCH --gres=gpu:v100:1
+#SBATCH --gres=gpu:1
 #SBATCH --export=ALL
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=21980614@student.uwa.edu.au
@@ -27,7 +27,7 @@ conda activate quant
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-SCRIPT=notebook/2_angle_rz_basic_qvc_slurm.ipynb
+SCRIPT=notebook/2_angle_rz_basic_qvc.ipynb
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
 RESULTS=$MYGROUP/conda_results
