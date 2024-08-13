@@ -30,7 +30,7 @@ conda activate quant
 SCRIPT=notebook/2_angle_rz_basic_qvc.ipynb
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
-RESULTS=$MYGROUP/conda_results
+RESULTS=$MYGROUP/QuantumTransformer/conda_results
 
 ###############################################
 # Creates a unique directory in the SCRATCH directory for this job to run in.
