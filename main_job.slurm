@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH --job-name=qt-train-qcpu
+#SBATCH --job-name=qt-train-qgpu
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
@@ -27,7 +27,7 @@ conda activate quant
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-SCRIPT=2_angle_rz_basic_qvc_slurm.ipynb
+SCRIPT=2_angle_rz_basic_qvc_slurm-gpu.ipynb
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
 RESULTS=$MYGROUP/QuantumTransformer/conda_results
