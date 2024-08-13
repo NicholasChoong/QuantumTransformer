@@ -2,7 +2,7 @@
 #SBATCH --job-name=qt-train
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
-#SBATCH --ntasks=4
+#SBATCH --ntasks=8
 #SBATCH --gres=gpu:v100:1
 #SBATCH --export=ALL
 
@@ -13,7 +13,7 @@ module load Anaconda3/2024.06 cuda/12.4
 eval "$(conda shell.bash hook)"
 
 # activate the Python environment for the unit CITS5508
-conda activate $MYGROUP/quantum
+conda activate quant
 
 # list the environment loaded by the modules.
 # Can remove the two lines below if you want.
@@ -25,7 +25,7 @@ conda activate $MYGROUP/quantum
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-SCRIPT=notebook/naive_rz.ipynb
+SCRIPT=notebook/2_angle_rz_basic_qvc_slurm.ipynb
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
 RESULTS=$MYGROUP/conda_results
@@ -63,6 +63,8 @@ cd ${SCRATCH}
 # we can delete the line below. It just shows the contents of
 # the /scratch... directory before running Python.
 ls -al
+
+nvidia-smi
 
 # now run our Python notebook file
 jupyter nbconvert --execute --to notebook ./${SCRIPT}
