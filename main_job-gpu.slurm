@@ -1,9 +1,9 @@
 #!/bin/bash -l
-#SBATCH --job-name=qt-train-qcpu
+#SBATCH --job-name=qt-train-qgpu
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:v100:1
 #SBATCH --export=ALL
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=21980614@student.uwa.edu.au
@@ -27,7 +27,9 @@ conda activate quant
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-SCRIPT=2_angle_rz_basic_qvc_slurm.ipynb
+NAME=2_angle_rz_basic_qvc_slurm-gpu
+EXT=ipynb
+SCRIPT=$NAME.$EXT
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
 RESULTS=$MYGROUP/QuantumTransformer/conda_results
@@ -69,7 +71,7 @@ ls -al
 nvidia-smi
 
 # now run our Python notebook file
-jupyter nbconvert --execute --to notebook ./${SCRIPT}
+papermill --request-save-on-cell-execute --progress-bar --log-output ./${SCRIPT} ./$NAME.papermill.$EXT
 
 #############################################
 # Now move the output produced by the Python notebook file from

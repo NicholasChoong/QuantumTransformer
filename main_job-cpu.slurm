@@ -27,7 +27,9 @@ conda activate quant
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-SCRIPT=2_angle_rz_basic_qvc_slurm.ipynb
+NAME=2_angle_rz_basic_qvc_slurm
+EXT=ipynb
+SCRIPT=$NAME.$EXT
 
 SCRATCH=$MYSCRATCH/run_conda/$SLURM_JOBID
 RESULTS=$MYGROUP/QuantumTransformer/conda_results
@@ -69,7 +71,7 @@ ls -al
 nvidia-smi
 
 # now run our Python notebook file
-jupyter nbconvert --execute --to notebook ./${SCRIPT}
+papermill --request-save-on-cell-execute --progress-bar --log-output ./${SCRIPT} ./$NAME.papermill.$EXT
 
 #############################################
 # Now move the output produced by the Python notebook file from
