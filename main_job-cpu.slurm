@@ -7,7 +7,6 @@
 #SBATCH --export=ALL
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=21980614@student.uwa.edu.au
-#SBATCH --output=/slurm-output/slurm-%j.out
 
 start_time=$(date)
 

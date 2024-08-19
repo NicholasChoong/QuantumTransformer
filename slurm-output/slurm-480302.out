@@ -1,0 +1,101 @@
+Working SCRATCH directory is /scratch/pmc026/nchoong/run_conda/480302
+Results will be stored in /group/pmc026/nchoong/QuantumTransformer/conda_results/480302
+SLURM_SUBMIT_DIR is
+/group/pmc026/nchoong/QuantumTransformer
+total 151
+drwxrwxr-x 2 nchoong nchoong      0 Aug 17 08:14 .
+drwxrwxr-x 3 nchoong nchoong      0 Aug 17 08:14 ..
+-rw-rw-r-- 1 nchoong nchoong 153852 Aug 17 08:14 2_angle_rz_basic_qvc_slurm-gpu.ipynb
+Sat Aug 17 08:14:59 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   30C    P0             23W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   31C    P0             24W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Input Notebook:  ./2_angle_rz_basic_qvc_slurm-gpu.ipynb
+Output Notebook: ./2_angle_rz_basic_qvc_slurm-gpu.papermill.ipynb
+Executing:   0%|          | 0/47 [00:00<?, ?cell/s]Executing notebook with kernel: quant
+Executing:   2%|▏         | 1/47 [00:01<00:53,  1.16s/cell]Executing:   4%|▍         | 2/47 [00:03<01:30,  2.02s/cell]Executing:   9%|▊         | 4/47 [00:03<00:34,  1.26cell/s]Executing:  11%|█         | 5/47 [00:04<00:24,  1.72cell/s]Executing:  19%|█▉        | 9/47 [00:04<00:08,  4.42cell/s]Executing:  28%|██▊       | 13/47 [00:04<00:04,  7.60cell/s]Executing:  36%|███▌      | 17/47 [00:04<00:02, 11.29cell/s]Executing:  45%|████▍     | 21/47 [00:04<00:01, 14.83cell/s]Executing:  53%|█████▎    | 25/47 [00:04<00:01, 18.51cell/s]Executing:  62%|██████▏   | 29/47 [00:05<00:02,  8.52cell/s]Executing:  70%|███████   | 33/47 [00:05<00:01, 11.17cell/s]Executing:  79%|███████▊  | 37/47 [00:05<00:00, 13.76cell/s]Executing:  85%|████████▌ | 40/47 [00:06<00:00,  9.77cell/s]Executing:  85%|████████▌ | 40/47 [00:20<00:00,  9.77cell/s]Executing:  87%|████████▋ | 41/47 [49:21:14<31:40:36, 19006.08s/cell]Executing:  89%|████████▉ | 42/47 [49:21:15<22:53:53, 16486.63s/cell]Executing:  94%|█████████▎| 44/47 [49:21:16<9:57:53, 11957.79s/cell] Executing:  98%|█████████▊| 46/47 [49:21:17<2:23:07, 8587.82s/cell] Executing:  98%|█████████▊| 46/47 [49:21:18<1:04:22, 3862.57s/cell]
+Traceback (most recent call last):
+  File "/home/nchoong/.conda/envs/quant/bin/papermill", line 8, in <module>
+    sys.exit(papermill())
+             ^^^^^^^^^^^
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/click/decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/papermill/execute.py", line 131, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/home/nchoong/.conda/envs/quant/lib/python3.11/site-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [25]":
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+Cell In[25], line 1
+----> 1 checkpoint = torch.load(
+      2     ".models/model_and_metrics_epoch_10.pt"
+      3 )  # Replace x with the epoch number
+      5 # Load the metrics
+      6 epoch = checkpoint["epoch"]
+
+File ~/.local/lib/python3.11/site-packages/torch/serialization.py:997, in load(f, map_location, pickle_module, weights_only, mmap, **pickle_load_args)
+    994 if 'encoding' not in pickle_load_args.keys():
+    995     pickle_load_args['encoding'] = 'utf-8'
+--> 997 with _open_file_like(f, 'rb') as opened_file:
+    998     if _is_zipfile(opened_file):
+    999         # The zipfile reader is going to advance the current file position.
+   1000         # If we want to actually tail call to torch.jit.load, we need to
+   1001         # reset back to the original position.
+   1002         orig_position = opened_file.tell()
+
+File ~/.local/lib/python3.11/site-packages/torch/serialization.py:444, in _open_file_like(name_or_buffer, mode)
+    442 def _open_file_like(name_or_buffer, mode):
+    443     if _is_path(name_or_buffer):
+--> 444         return _open_file(name_or_buffer, mode)
+    445     else:
+    446         if 'w' in mode:
+
+File ~/.local/lib/python3.11/site-packages/torch/serialization.py:425, in _open_file.__init__(self, name, mode)
+    424 def __init__(self, name, mode):
+--> 425     super().__init__(open(name, mode))
+
+FileNotFoundError: [Errno 2] No such file or directory: '.models/model_and_metrics_epoch_10.pt'
+
+mv /scratch/pmc026/nchoong/run_conda/480302 /group/pmc026/nchoong/QuantumTransformer/conda_results
+Please see the /group/pmc026/nchoong/QuantumTransformer/conda_results directory for any output
+
+Mothur MPI job started  at Sat Aug 17 08:14:58 AWST 2024
+Mothur MPI job finished at Mon Aug 19 09:36:21 AWST 2024
