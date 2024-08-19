@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH --job-name=qt-train-qgpu
+#SBATCH --job-name=qt-qgpu
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
@@ -7,7 +7,6 @@
 #SBATCH --export=ALL
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=21980614@student.uwa.edu.au
-#SBATCH --output=/slurm-output/slurm-%j.out
 
 start_time=$(date)
 
@@ -16,7 +15,7 @@ module load Anaconda3/2024.06 cuda/12.4
 eval "$(conda shell.bash hook)"
 
 # activate the Python environment for the unit CITS5508
-conda activate quant
+conda activate $MYGROUP/quantum
 
 # list the environment loaded by the modules.
 # Can remove the two lines below if you want.
@@ -72,7 +71,7 @@ ls -al
 nvidia-smi
 
 # now run our Python notebook file
-papermill --request-save-on-cell-execute --progress-bar --log-output ./${SCRIPT} ./$NAME.papermill.$EXT
+papermill --request-save-on-cell-execute --progress-bar ./${SCRIPT} ./$NAME.papermill.$EXT
 
 #############################################
 # Now move the output produced by the Python notebook file from
