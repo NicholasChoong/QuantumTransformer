@@ -7,7 +7,7 @@ pip install pennylane --upgrade
 
 pip install -U scikit-learn tqdm torchtext torchdata seaborn ipykernel 'portalocker>=2.0.0' papermill
 
-pip install tensorcircuit tensorflow
+pip install tensorcircuit tensorflow==2.14.0
 
 pip install -U sentence-transformers
 
