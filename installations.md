@@ -5,7 +5,7 @@ pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https
 
 pip install pennylane --upgrade
 
-pip install -U scikit-learn tqdm torchtext torchdata seaborn ipykernel 'portalocker>=2.0.0'
+pip install -U scikit-learn tqdm torchtext torchdata seaborn ipykernel 'portalocker>=2.0.0' papermill
 
 pip install tensorcircuit tensorflow
 
