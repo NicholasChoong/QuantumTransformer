@@ -9,9 +9,7 @@ pip install -U scikit-learn tqdm torchtext torchdata seaborn ipykernel 'portaloc
 
 pip install tensorcircuit tensorflow==2.14.0
 
-pip install -U sentence-transformers
-
-pip install datasets
+pip install datasets transformers accelerate
 
 conda activate F:\web-dev\qt
 
