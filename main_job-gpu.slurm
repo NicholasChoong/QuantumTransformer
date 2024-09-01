@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH --job-name=qt-qgpu
+#SBATCH --job-name=qt-qgpu-2
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
@@ -27,7 +27,8 @@ conda activate $MYGROUP/quantum
 
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
-NAME=2_angle_rz_basic_qvc_slurm-gpu
+# NAME=3_angle_rzx_basic_qvc
+NAME=2_angle_rz_basic_qvc-tc
 EXT=ipynb
 SCRIPT=$NAME.$EXT
 

@@ -1,0 +1,41 @@
+Working SCRATCH directory is /scratch/pmc026/nchoong/run_conda/480560
+Results will be stored in /group/pmc026/nchoong/QuantumTransformer/conda_results/480560
+SLURM_SUBMIT_DIR is
+/group/pmc026/nchoong/QuantumTransformer
+total 151
+drwxrwxr-x 2 nchoong nchoong      0 Aug 19 18:56 .
+drwxrwxr-x 4 nchoong nchoong      0 Aug 19 18:56 ..
+-rw-rw-r-- 1 nchoong nchoong 153839 Aug 19 18:56 3_angle_rzx_basic_qvc.ipynb
+Mon Aug 19 18:56:19 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   31C    P0             23W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   32C    P0             24W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Input Notebook:  ./3_angle_rzx_basic_qvc.ipynb
+Output Notebook: ./3_angle_rzx_basic_qvc.papermill.ipynb
+Executing:   0%|          | 0/47 [00:00<?, ?cell/s]Executing notebook with kernel: python3
+Executing:   2%|▏         | 1/47 [00:02<01:52,  2.44s/cell]Executing:   4%|▍         | 2/47 [00:05<01:53,  2.52s/cell]Executing:   9%|▊         | 4/47 [00:05<00:41,  1.02cell/s]Executing:  11%|█         | 5/47 [00:05<00:29,  1.41cell/s]Executing:  21%|██▏       | 10/47 [00:05<00:08,  4.20cell/s]Executing:  30%|██▉       | 14/47 [00:05<00:04,  6.86cell/s]Executing:  38%|███▊      | 18/47 [00:05<00:02, 10.03cell/s]Executing:  49%|████▉     | 23/47 [00:05<00:01, 14.38cell/s]Executing:  57%|█████▋    | 27/47 [00:07<00:03,  5.19cell/s]Executing:  64%|██████▍   | 30/47 [00:07<00:02,  6.56cell/s]Executing:  72%|███████▏  | 34/47 [00:07<00:01,  8.99cell/s]Executing:  79%|███████▊  | 37/47 [00:07<00:00, 10.80cell/s]Executing:  85%|████████▌ | 40/47 [00:08<00:01,  6.11cell/s]Executing:  85%|████████▌ | 40/47 [00:20<00:01,  6.11cell/s]Executing:  87%|████████▋ | 41/47 [37:32:15<25:39:45, 15397.59s/cell]Executing:  89%|████████▉ | 42/47 [37:32:15<18:23:30, 13242.04s/cell]Executing:  94%|█████████▎| 44/47 [37:32:16<7:52:56, 9458.83s/cell]  Executing:  98%|█████████▊| 46/47 [37:32:17<1:51:57, 6717.27s/cell]Executing: 100%|██████████| 47/47 [37:32:17<00:00, 5565.13s/cell]  Executing: 100%|██████████| 47/47 [37:32:18<00:00, 2875.29s/cell]
+mv /scratch/pmc026/nchoong/run_conda/480560 /group/pmc026/nchoong/QuantumTransformer/conda_results
+Please see the /group/pmc026/nchoong/QuantumTransformer/conda_results directory for any output
+
+Mothur MPI job started  at Mon Aug 19 18:56:18 AWST 2024
+Mothur MPI job finished at Wed Aug 21 08:28:40 AWST 2024
