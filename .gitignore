@@ -171,3 +171,6 @@ word_embeddings/
 word_tokens/
 word_labels/
 *_word_embeddings.pt
+
+
+notebook/.models*
