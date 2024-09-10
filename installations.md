@@ -11,6 +11,8 @@ pip install tensorcircuit tensorflow==2.14.0
 
 pip install datasets transformers accelerate
 
+pip install -U qiskit cirq pylatexenc
+
 conda activate F:\web-dev\qt
 
 
