@@ -9,11 +9,10 @@ from .binary_acc import binary_accuracy
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.nn.modules.loss import _Loss
-from torch.optim import Optimizer
+from torch.optim.optimizer import Optimizer
 from torch.optim.lr_scheduler import StepLR
 
-
-from config import dev
+from accelerate import Accelerator
 
 
 def train(
@@ -25,29 +24,34 @@ def train(
     max_seq_len: int,
     progress_bar,
 ):
+    accelerator = Accelerator()
+
     epoch_loss = []
     epoch_acc = []
     epoch_true = []
     epoch_pred = []
 
+    model, optimizer, scheduler, dataloader = accelerator.prepare(
+        model, optimizer, scheduler, dataloader
+    )
+
     model.train()
-    for i, (lab, text) in enumerate(dataloader):
+    for i, (label, text) in enumerate(dataloader):
 
         optimizer.zero_grad()
-        inputs = torch.LongTensor(text.T).to(dev)
+        inputs = torch.LongTensor(text.T, device=accelerator.device)
         if inputs.size(1) > max_seq_len:
             inputs = inputs[:, :max_seq_len]
-        model.to(dev)
         predictions = model(inputs).squeeze(1)
 
-        label = lab.to(dev)
         # label = label.unsqueeze(1)
         loss = criterion(predictions, label)
         # loss = F.nll_loss(predictions, label)
         acc = binary_accuracy(predictions, label)
 
-        loss.backward()
+        accelerator.backward(loss)
         optimizer.step()
+        scheduler.step()
 
         epoch_loss.append(loss.item())
         epoch_acc.append(acc.item())
@@ -59,6 +63,5 @@ def train(
     # print(epoch_loss, epoch_acc, len(dataloader.dataset))
 
     epoch_auc = 100.0 * roc_auc_score(epoch_true, epoch_pred, multi_class="ovr")
-    scheduler.step()
     # divide the total loss by the total number of batches per epoch
     return np.mean(epoch_loss), np.mean(epoch_acc), epoch_auc

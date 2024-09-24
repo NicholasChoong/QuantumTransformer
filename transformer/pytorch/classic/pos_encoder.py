@@ -28,6 +28,8 @@ class PositionalEncoder(nn.Module):
         Arguments:
             x: Tensor, shape ``[seq_len, batch_size, embedding_dim]``
         """
-        seq_len = x.size(1)
-        x = x + self.pe[: x.size(0)]
-        return self.dropout(x)
+        x = x.transpose(0, 1)
+        seq_len = x.size(0)
+        x = x + self.pe[:seq_len]
+        x = self.dropout(x)
+        return x.transpose(0, 1)
