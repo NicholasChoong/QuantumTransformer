@@ -13,7 +13,7 @@ from torchtext.data.functional import to_map_style_dataset
 from torchtext.vocab import build_vocab_from_iterator
 
 from .text_classifier import TextClassifier
-from .utils.data_loader import yield_tokens, collate_batch, batch_sampler
+from .utils.data_loader_old import yield_tokens, collate_batch, batch_sampler
 from .utils.epoch import epoch_time
 from .utils.eval import evaluate
 from .utils.param_count import count_parameters

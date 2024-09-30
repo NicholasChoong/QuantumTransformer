@@ -2,6 +2,8 @@ from typing import Literal
 import torch.nn as nn
 from torch import Tensor
 
+from transformer.pytorch.quantum.pennylane.angle_amp import PennyLaneArgs
+
 from .multihead import MultiHeadedAttention
 from .feedforward import FeedForward
 
@@ -12,6 +14,7 @@ class Encoder(nn.Module):
         embed_dim: int,
         num_heads: int,
         ffn_dim: int,
+        pennylane_args: PennyLaneArgs,
         dropout: float = 0.1,
         mask: Tensor | None = None,
         n_qubits_transformer=0,
@@ -36,6 +39,7 @@ class Encoder(nn.Module):
             batch=batch,
             circuit_type=circuit_type,
             q_device=q_device,
+            pennylane_args=pennylane_args,
         )
         self.norm1 = nn.LayerNorm(embed_dim)
         self.dropout1 = nn.Dropout(dropout)
@@ -43,11 +47,12 @@ class Encoder(nn.Module):
         self.ffn = FeedForward(
             embed_dim,
             n_qubits_ffn,
-            n_qlayers,
+            n_qlayers=n_qlayers,
             dropout=dropout,
             batch=batch,
             circuit_type=circuit_type,
             q_device=q_device,
+            pennylane_args=pennylane_args,
         )
 
         self.norm2 = nn.LayerNorm(embed_dim)

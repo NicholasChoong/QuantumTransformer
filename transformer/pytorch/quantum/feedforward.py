@@ -6,7 +6,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 
 from ._tensorcircuit import QuantumLayer as tc_QuantumLayer
-from ._pennylane import QuantumLayer as qml_QuantumLayer
+from .pennylane.angle_amp import PennyLaneArgs, QuantumLayer as qml_QuantumLayer
 
 
 class FeedForward(nn.Module):
@@ -21,6 +21,7 @@ class FeedForward(nn.Module):
         self,
         embed_dim: int,
         n_qubits: int,
+        pennylane_args: PennyLaneArgs,
         n_qlayers=1,
         dropout=0.1,
         batch=True,
@@ -38,7 +39,9 @@ class FeedForward(nn.Module):
 
         self.linear_1 = nn.Linear(embed_dim, self.ffn_dim)
         self.linear_2 = nn.Linear(self.ffn_dim, embed_dim)
-        self.vqc = QuantumLayer(n_qubits, n_qlayers, q_device=q_device)
+        self.vqc = QuantumLayer(
+            n_qubits, n_qlayers, q_device=q_device, pennylane_args=pennylane_args
+        )
         self.gelu = nn.GELU()
         self.dropout = nn.Dropout(dropout)
 

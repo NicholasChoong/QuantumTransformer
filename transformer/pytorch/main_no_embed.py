@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 
 
 from transformer.pytorch.classic.pos_encoder import PositionalEncoder
-from transformer.pytorch.utils.load_dataset import load_dataset
+from transformer.pytorch.utils.load_dataloader import load_dataloader
 
 from .text_classifier_no_embed import TextClassifier
 from .utils.epoch import epoch_time
@@ -23,7 +23,9 @@ from torch.optim.lr_scheduler import StepLR
 
 
 def main(
-    dataset_name: Literal["amazon", "imdb", "yelp"] = "imdb",
+    train_dataloader: DataLoader,
+    val_dataloader: DataLoader,
+    test_dataloader: DataLoader,
     max_seq_len=128,
     batch_size=32,
     sample_size=0,
@@ -34,6 +36,7 @@ def main(
     num_blocks=2,
     num_classes=2,
     vocab_size=50000,
+    pooling_method: Literal["CLS", "MEAN", "MAX", "CONCAT"] = "CLS",
     ffn_dim=16,
     n_qubits_transformer=0,
     n_qubits_ffn=0,
@@ -43,89 +46,13 @@ def main(
     q_device="default.qubit",
     batch=True,
     circuit_type: Literal["pennylane", "tensorcircuit"] = "tensorcircuit",
+    pennylane_args={},
+    multi_gpu: bool = False,
 ):
 
     save_dir = f".models_{n_epochs}_{n_qubits_transformer}_{n_qubits_ffn}_{n_qlayers}"
     save_path = os.path.join(save_dir, "model_and_metrics_epoch_{}.pt")
     os.makedirs(save_dir, exist_ok=True)
-
-    size = sample_size
-
-    # test_data = np.array(test_data)[
-    #     np.random.choice(len(test_data), size=size, replace=False)
-    # ].tolist()
-
-    dataset = load_dataset(dataset_name)
-    # train_data = dataset["train"]
-    train_labels, train_embeddings = dataset["train"]
-    # val_data = dataset["val"]
-    val_labels, val_embeddings = dataset["val"]
-    # test_data = dataset["test"]
-    test_labels, test_embeddings = dataset["test"]
-
-    pos_encoder = PositionalEncoder(
-        train_embeddings.shape[-1], max_len=max_seq_len, device=torch.device("cpu")
-    )
-    train_embeddings = pos_encoder(train_embeddings)
-    val_embeddings = pos_encoder(val_embeddings)
-    test_embeddings = pos_encoder(test_embeddings)
-
-    train_data = list(zip(train_labels, train_embeddings))
-    val_data = list(zip(val_labels, val_embeddings))
-    test_data = list(zip(test_labels, test_embeddings))
-
-    if sample_size:
-        # train_data = np.array(train_data)[
-        #     np.random.choice(len(train_data), size=size, replace=False)
-        # ].tolist()
-        # val_data = np.array(val_data)[
-        #     np.random.choice(len(val_data), size=int(size * 0.2), replace=False)
-        # ].tolist()
-        train_indices = np.random.choice(
-            len(train_labels), size=int(size * 0.8), replace=False
-        )
-        train_labels = [train_labels[i] for i in train_indices]
-        train_embeddings = [train_embeddings[i] for i in train_indices]
-
-        val_indices = np.random.choice(
-            len(val_labels), size=int(size * 0.2), replace=False
-        )
-        val_labels = [val_labels[i] for i in val_indices]
-        val_embeddings = [val_embeddings[i] for i in val_indices]
-
-        test_indices = np.random.choice(
-            len(test_labels), size=int(size * 0.5), replace=False
-        )
-        test_labels = [test_labels[i] for i in test_indices]
-        test_embeddings = [test_embeddings[i] for i in test_indices]
-
-        train_data = list(zip(train_labels, train_embeddings))
-        val_data = list(zip(val_labels, val_embeddings))
-        test_data = list(zip(test_labels, test_embeddings))
-
-    train_data = [(float(label), embedding) for label, embedding in train_data]
-    val_data = [(float(label), embedding) for label, embedding in val_data]
-    test_data = [(float(label), embedding) for label, embedding in test_data]
-
-    print("train_data: ", len(train_data))
-
-    print("pos: ", len([label for label, embedding in train_data if label == 0]))
-    print("neg: ", len([label for label, embedding in train_data if label == 1]))
-    print("pos: ", len([label for label, embedding in val_data if label == 0]))
-    print("neg: ", len([label for label, embedding in val_data if label == 1]))
-    print("pos: ", len([label for label, embedding in test_data if label == 0]))
-    print("neg: ", len([label for label, embedding in test_data if label == 1]))
-
-    train_loader = DataLoader(
-        train_data,  # type: ignore
-        batch_size=batch_size,
-        shuffle=True,
-    )
-    val_loader = DataLoader(
-        val_data,  # type: ignore
-        batch_size=batch_size,
-        shuffle=True,
-    )
 
     model = TextClassifier(
         embed_dim=embed_dim,
@@ -142,14 +69,21 @@ def main(
         q_device=q_device,
         batch=batch,
         circuit_type=circuit_type,
+        pennylane_args=pennylane_args,
+        pooling_method=pooling_method,
     )
+
+    print(model)
+
+    if multi_gpu:
+        model = torch.nn.DataParallel(model)
 
     print(f"The model has {count_parameters(model):,} trainable parameters")
     start_time = time()
 
     optimizer = torch.optim.Adam(lr=lr, params=model.parameters())  # type: ignore
     criterion = torch.nn.BCEWithLogitsLoss()  # logits -> sigmoid -> loss
-    scheduler = StepLR(optimizer, step_size=3, gamma=0.1)
+    scheduler = StepLR(optimizer, step_size=5, gamma=0.1)
 
     # training loop
     best_val_loss = float("inf")
@@ -159,7 +93,7 @@ def main(
     train_auc_list, val_auc_list = [], []
     for iepoch in range(n_epochs):
         with tqdm(
-            total=len(train_loader),
+            total=len(train_dataloader),
             desc=f"Epoch {iepoch+1:3}/{n_epochs}",
             unit="batch",
             bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}",
@@ -169,7 +103,7 @@ def main(
 
             train_loss, train_acc, train_auc = train(
                 model,
-                train_loader,
+                train_dataloader,
                 optimizer,
                 criterion,
                 scheduler,
@@ -177,12 +111,11 @@ def main(
                 batch_size,
                 progress_bar,
             )
+            progress_bar.set_postfix_str(("Evaluating on validation set..."))
 
             val_loss, val_acc, val_auc = evaluate(
-                model, val_loader, criterion, max_seq_len
+                model, val_dataloader, criterion, max_seq_len
             )
-
-            progress_bar.set_postfix_str(("Evaluating on validation set..."))
 
             end_time = time()
 
@@ -204,7 +137,7 @@ def main(
 
             if tqdm_disabled:
                 ep_time = end_time - operation_start_time
-                batch_time = len(train_loader.dataset) / ep_time  # type: ignore
+                batch_time = len(train_dataloader.dataset) / ep_time  # type: ignore
 
                 print(
                     (

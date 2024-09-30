@@ -7,7 +7,7 @@ from torch import Tensor
 from torch.nn.utils.rnn import pad_sequence
 
 from ._tensorcircuit import QuantumLayer as tc_QuantumLayer
-from ._pennylane import QuantumLayer as qml_QuantumLayer
+from .pennylane.angle_amp import PennyLaneArgs, QuantumLayer as qml_QuantumLayer
 
 
 class MultiHeadedAttention(nn.Module):
@@ -15,6 +15,7 @@ class MultiHeadedAttention(nn.Module):
         self,
         embed_dim: int,
         num_heads: int,
+        pennylane_args: PennyLaneArgs,
         dropout=0.1,
         mask: Tensor | None = None,
         use_bias=False,
@@ -41,11 +42,19 @@ class MultiHeadedAttention(nn.Module):
             QuantumLayer = tc_QuantumLayer
 
         # The quantum layers for the query, key, and value projections
-        self.k_linear = QuantumLayer(n_qubits, n_qlayers, q_device=q_device)
-        self.q_linear = QuantumLayer(n_qubits, n_qlayers, q_device=q_device)
-        self.v_linear = QuantumLayer(n_qubits, n_qlayers, q_device=q_device)
+        self.k_linear = QuantumLayer(
+            n_qubits, n_qlayers, q_device=q_device, pennylane_args=pennylane_args
+        )
+        self.q_linear = QuantumLayer(
+            n_qubits, n_qlayers, q_device=q_device, pennylane_args=pennylane_args
+        )
+        self.v_linear = QuantumLayer(
+            n_qubits, n_qlayers, q_device=q_device, pennylane_args=pennylane_args
+        )
         # The quantum layer to combine the heads
-        self.combine_heads = QuantumLayer(n_qubits, n_qlayers, q_device=q_device)
+        self.combine_heads = QuantumLayer(
+            n_qubits, n_qlayers, q_device=q_device, pennylane_args=pennylane_args
+        )
 
         self.attn_weights: Tensor | None = None
         self.dropout = nn.Dropout(p=dropout)

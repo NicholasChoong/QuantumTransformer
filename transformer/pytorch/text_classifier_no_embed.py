@@ -4,6 +4,8 @@ import torch.nn as nn
 
 from torch import Tensor
 
+from transformer.pytorch.quantum.pennylane.angle_amp import PennyLaneArgs
+
 from .utils.clone import get_clones
 
 from .classic.encoder import Encoder
@@ -19,6 +21,7 @@ class TextClassifier(nn.Module):
         num_blocks: int,
         num_classes: int,
         vocab_size: int,
+        pennylane_args: PennyLaneArgs,
         input_dim: int = 768,
         ffn_dim=32,
         dropout=0.1,
@@ -26,6 +29,7 @@ class TextClassifier(nn.Module):
         n_qubits_ffn=0,
         n_qlayers=1,
         batch=True,
+        pooling_method: Literal["CLS", "MEAN", "MAX", "CONCAT"] = "CLS",
         circuit_type: Literal["pennylane", "tensorcircuit"] = "tensorcircuit",
         q_device="default.qubit",
     ):
@@ -36,6 +40,7 @@ class TextClassifier(nn.Module):
         self.num_blocks = num_blocks
         self.num_classes = num_classes
         self.vocab_size = vocab_size
+        self.pooling_method = pooling_method
 
         self.squeeze = nn.Linear(input_dim, embed_dim)
 
@@ -55,28 +60,32 @@ class TextClassifier(nn.Module):
             else:
                 print("Using TensorCircuit")
 
-            self.transformers = get_clones(
-                QuantumEncoder(
-                    embed_dim,
-                    num_heads,
-                    ffn_dim,
-                    n_qubits_transformer=n_qubits_transformer,
-                    n_qubits_ffn=n_qubits_ffn,
-                    n_qlayers=n_qlayers,
-                    batch=batch,
-                    circuit_type=circuit_type,
-                    q_device=q_device,
-                ),
-                num_blocks,
+            self.transformers = nn.ModuleList(
+                [
+                    QuantumEncoder(
+                        embed_dim,
+                        num_heads,
+                        ffn_dim,
+                        n_qubits_transformer=n_qubits_transformer,
+                        n_qubits_ffn=n_qubits_ffn,
+                        n_qlayers=n_qlayers,
+                        batch=batch,
+                        circuit_type=circuit_type,
+                        q_device=q_device,
+                        pennylane_args=pennylane_args,
+                    )
+                    for _ in range(num_blocks)
+                ]
             )
 
         else:
-            self.transformers = get_clones(
-                Encoder(embed_dim, num_heads, ffn_dim), num_blocks
+            self.transformers = nn.ModuleList(
+                [Encoder(embed_dim, num_heads, ffn_dim) for _ in range(num_blocks)]
             )
 
-        self.class_logits = nn.Linear(embed_dim, 1)
         self.dropout = nn.Dropout(dropout)
+        self.layer_norm = nn.LayerNorm(embed_dim)
+        self.class_logits = nn.Linear(embed_dim, 1)
 
     def forward(self, x: Tensor):
 
@@ -85,7 +94,20 @@ class TextClassifier(nn.Module):
         for transformer in self.transformers:
             x = transformer(x)
 
-        x = x.mean(dim=1)  # global average pooling, works in 1D
+        # x = x.mean(dim=1)  # global average pooling, works in 1D
         x = self.dropout(x)
+        x = self.layer_norm(x)
+        # raise Exception(" Stop here ")
+
+        if self.pooling_method == "MEAN":
+            # Mean pooling
+            x = x.mean(dim=1)
+        elif self.pooling_method == "MAX":
+            # Max pooling
+            x, _ = x.max(dim=1)
+        else:
+            # CLS token
+            x = x[:, 0, :]
+
         x = self.class_logits(x)
         return x
