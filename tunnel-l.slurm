@@ -3,7 +3,7 @@
 #SBATCH --partition=gpu
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=36
-#SBATCH --mem=750G
+#SBATCH --mem=0
 #SBATCH --gres=gpu:v100:1
 #SBATCH --export=ALL
 #SBATCH --mail-type=ALL
