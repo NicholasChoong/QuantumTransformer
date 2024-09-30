@@ -1,0 +1,112 @@
+Working SCRATCH directory is /scratch/pmc026/nchoong/run_conda/509056
+Results will be stored in /group/pmc026/nchoong/QuantumTransformer/conda_results/509056
+SLURM_SUBMIT_DIR is
+/group/pmc026/nchoong/QuantumTransformer
+total 275
+drwxrwxr-x 3 nchoong nchoong      0 Sep 29 12:58 .
+drwxrwxr-x 8 nchoong nchoong      0 Sep 29 12:58 ..
+-rw-rw-r-- 1 nchoong nchoong    173 Sep 29 12:58 config.py
+drwxr-xr-x 4 nchoong nchoong      0 Sep 29 12:58 transformer
+-rw-r--r-- 1 nchoong nchoong 280915 Sep 29 12:58 yelp.ipynb
+Sun Sep 29 12:58:27 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   30C    P0             21W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   32C    P0             25W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Input Notebook:  ./yelp.ipynb
+Output Notebook: ./yelp.papermill.ipynb
+Executing:   0%|          | 0/13 [00:00<?, ?cell/s]Executing notebook with kernel: python3
+Executing:   8%|▊         | 1/13 [00:02<00:28,  2.41s/cell]2024-09-29 12:58:35.576662: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-09-29 12:58:35.588937: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:485] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-09-29 12:58:35.603977: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:8454] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-09-29 12:58:35.608556: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1452] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-09-29 12:58:35.620064: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-09-29 12:58:37.821911: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Executing:  23%|██▎       | 3/13 [00:15<00:56,  5.61s/cell]Executing:  54%|█████▍    | 7/13 [03:28<03:26, 34.49s/cell]Wait for final termination of kernel timed out - continuing...
+Executing:  54%|█████▍    | 7/13 [03:38<03:07, 31.27s/cell]
+Traceback (most recent call last):
+  File "/group/pmc026/nchoong/qt/bin/papermill", line 8, in <module>
+    sys.exit(papermill())
+             ^^^^^^^^^^^
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/click/decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/papermill/execute.py", line 131, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/group/pmc026/nchoong/qt/lib/python3.11/site-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [6]":
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+Cell In[6], line 1
+----> 1 train_dataloader, val_dataloader, test_dataloader = load_dataloader(
+      2     "yelp", sample_size=100_000
+      3 )
+
+File /scratch/pmc026/nchoong/run_conda/509056/transformer/pytorch/utils/load_dataloader.py:19, in load_dataloader(dataset_name, max_seq_len, batch_size, sample_size, label_count)
+     11 def load_dataloader(
+     12     dataset_name: Literal["amazon", "imdb", "yelp"] = "imdb",
+     13     max_seq_len: int = 128,
+   (...)
+     16     label_count: bool = True,
+     17 ):
+---> 19     dataset = load_dataset(dataset_name)
+     20     train_labels, train_embeddings = dataset["train"]
+     21     val_labels, val_embeddings = dataset["val"]
+
+File /scratch/pmc026/nchoong/run_conda/509056/transformer/pytorch/utils/load_dataset.py:51, in load_dataset(name)
+     49 sampled_train_labels, sampled_train_data = None, None
+     50 if len(train_labels) > 300_000:
+---> 51     sampled_train_labels, sampled_train_data = sampling(train_labels, train_data, 0)
+     53     train_labels = None
+     54     train_data = None
+
+File /scratch/pmc026/nchoong/run_conda/509056/transformer/pytorch/utils/load_dataset.py:18, in sampling(labels, embeddings, sample_size)
+     16 labels = [labels[i] for i in indices]
+     17 embeddings = [embeddings[i].detach().clone() for i in indices]
+---> 18 combined_tensor = torch.stack(embeddings, dim=0)
+     19 return labels, combined_tensor
+
+RuntimeError: stack expects a non-empty TensorList
+
+mv /scratch/pmc026/nchoong/run_conda/509056 /group/pmc026/nchoong/QuantumTransformer/conda_results
+Please see the /group/pmc026/nchoong/QuantumTransformer/conda_results directory for any output
+
+Mothur MPI job started  at Sun Sep 29 12:58:27 AWST 2024
+Mothur MPI job finished at Sun Sep 29 13:02:08 AWST 2024

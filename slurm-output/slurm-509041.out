@@ -1,0 +1,5 @@
+Working SCRATCH directory is /scratch/pmc026/nchoong/run_conda/509041
+Results will be stored in /group/pmc026/nchoong/QuantumTransformer/conda_results/509041
+SLURM_SUBMIT_DIR is
+/group/pmc026/nchoong/QuantumTransformer
+slurmstepd: error: *** JOB 509041 ON n003 CANCELLED AT 2024-09-29T12:42:37 ***

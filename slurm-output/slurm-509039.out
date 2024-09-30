@@ -1,0 +1,78 @@
+Working SCRATCH directory is /scratch/pmc026/nchoong/run_conda/509039
+Results will be stored in /group/pmc026/nchoong/QuantumTransformer/conda_results/509039
+SLURM_SUBMIT_DIR is
+/group/pmc026/nchoong/QuantumTransformer
+total 33
+drwxrwxr-x 2 nchoong nchoong     0 Sep 29 12:10 .
+drwxrwxr-x 3 nchoong nchoong     0 Sep 29 12:10 ..
+-rw-rw-r-- 1 nchoong nchoong 33250 Sep 29 12:10 angle_rotation.ipynb
+Sun Sep 29 12:10:30 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   30C    P0             21W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   31C    P0             25W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Input Notebook:  ./angle_rotation.ipynb
+Output Notebook: ./angle_rotation.papermill.ipynb
+Executing:   0%|          | 0/24 [00:00<?, ?cell/s]Executing notebook with kernel: python3
+Executing:   4%|▍         | 1/24 [00:03<01:24,  3.67s/cell]Executing:   8%|▊         | 2/24 [00:03<00:36,  1.64s/cell]Executing:   8%|▊         | 2/24 [00:04<00:45,  2.06s/cell]
+Traceback (most recent call last):
+  File "/group/pmc026/nchoong/quantum/bin/papermill", line 8, in <module>
+    sys.exit(papermill())
+             ^^^^^^^^^^^
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/click/decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/papermill/execute.py", line 131, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/group/pmc026/nchoong/quantum/lib/python3.11/site-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [2]":
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Cell In[2], line 1
+----> 1 from transformer.pytorch.main_no_embed import main
+      2 from transformer.pytorch.utils.load_dataloader import load_dataloader
+      3 from transformer.pytorch.utils.plots import plot_metrics
+
+ModuleNotFoundError: No module named 'transformer'
+
+mv /scratch/pmc026/nchoong/run_conda/509039 /group/pmc026/nchoong/QuantumTransformer/conda_results
+Please see the /group/pmc026/nchoong/QuantumTransformer/conda_results directory for any output
+
+Mothur MPI job started  at Sun Sep 29 12:10:30 AWST 2024
+Mothur MPI job finished at Sun Sep 29 12:10:38 AWST 2024
