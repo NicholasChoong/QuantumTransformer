@@ -1,0 +1,50 @@
+Working SCRATCH directory is /scratch/pmc026/nchoong/run_conda/513989
+Results will be stored in /group/pmc026/nchoong/QuantumTransformer/conda_results/513989
+SLURM_SUBMIT_DIR is
+/group/pmc026/nchoong/QuantumTransformer
+total 270
+drwxrwxr-x  3 nchoong nchoong      0 Oct  2 12:00 .
+drwxrwxr-x 11 nchoong nchoong      0 Oct  2 12:00 ..
+-rw-rw-r--  1 nchoong nchoong    173 Oct  2 12:00 config.py
+drwxr-xr-x  4 nchoong nchoong      0 Oct  2 12:00 transformer
+-rw-r--r--  1 nchoong nchoong 275318 Oct  2 12:00 yelp.ipynb
+Wed Oct  2 12:00:30 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.14              Driver Version: 550.54.14      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   30C    P0             23W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   29C    P0             23W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Input Notebook:  ./yelp.ipynb
+Output Notebook: ./yelp.papermill.ipynb
+Executing:   0%|          | 0/13 [00:00<?, ?cell/s]Executing notebook with kernel: python3
+Executing:   8%|▊         | 1/13 [00:02<00:35,  2.96s/cell]2024-10-02 12:00:44.609171: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-10-02 12:00:44.644930: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:485] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-10-02 12:00:44.666737: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:8454] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-10-02 12:00:44.674988: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1452] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-10-02 12:00:44.706051: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-10-02 12:00:48.499726: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Executing:  23%|██▎       | 3/13 [00:24<01:27,  8.80s/cell]Executing:  54%|█████▍    | 7/13 [11:06<11:10, 111.79s/cell]Executing:  69%|██████▉   | 9/13 [26:22<14:59, 224.83s/cell]Executing:  77%|███████▋  | 10/13 [26:23<09:07, 182.49s/cell]Executing:  85%|████████▍ | 11/13 [26:23<04:47, 143.74s/cell]Executing:  92%|█████████▏| 12/13 [10:10:15<2:17:55, 8275.95s/cell]Executing: 100%|██████████| 13/13 [10:10:18<00:00, 6209.22s/cell]  Executing: 100%|██████████| 13/13 [10:10:26<00:00, 2817.41s/cell]
+mv /scratch/pmc026/nchoong/run_conda/513989 /group/pmc026/nchoong/QuantumTransformer/conda_results
+Please see the /group/pmc026/nchoong/QuantumTransformer/conda_results directory for any output
+
+Mothur MPI job started  at Wed Oct  2 12:00:29 AWST 2024
+Mothur MPI job finished at Wed Oct  2 22:11:01 AWST 2024
