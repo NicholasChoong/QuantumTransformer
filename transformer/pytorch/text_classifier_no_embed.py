@@ -31,6 +31,7 @@ class TextClassifier(nn.Module):
         batch=True,
         pooling_method: Literal["CLS", "MEAN", "MAX", "CONCAT"] = "CLS",
         circuit_type: Literal["pennylane", "tensorcircuit"] = "tensorcircuit",
+        encoding_type: Literal["angle_amp", "block"] = "angle_amp",
         q_device="default.qubit",
     ):
         super(TextClassifier, self).__init__()
@@ -73,6 +74,7 @@ class TextClassifier(nn.Module):
                         circuit_type=circuit_type,
                         q_device=q_device,
                         pennylane_args=pennylane_args,
+                        encoding_type=encoding_type,
                     )
                     for _ in range(num_blocks)
                 ]

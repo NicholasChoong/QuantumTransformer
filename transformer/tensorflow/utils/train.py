@@ -43,7 +43,7 @@ def train(
         epoch_true.extend(lab.numpy().tolist())
         epoch_pred.extend(tf.sigmoid(predictions).numpy().tolist())
 
-        progress_bar.update(batch_size)
+        progress_bar.update(1)
 
     # Compute AUC
     epoch_auc = 100.0 * roc_auc_score(epoch_true, epoch_pred, multi_class="ovr")

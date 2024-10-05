@@ -3,6 +3,10 @@ import torch
 import pennylane as qml
 import pennylane.templates as qmlt
 import pennylane.qnn.torch as qml_qnn_torch
+import math
+import numpy as np
+
+from transformer.pytorch.quantum.pennylane.fable import FABLE
 
 
 class PennyLaneArgs(TypedDict):
@@ -28,8 +32,13 @@ class QuantumLayer(torch.nn.Module):
             "rot": "Z",
             "imprimitive": "Z",
         },
+        embed_dim=4,
     ):
         super().__init__()
+
+        assert (
+            math.log2(embed_dim) % 2 == 0
+        ), "Embedding dimension should fit 2**n * 2**n."
 
         hadamard = pennylane_args.get("hadamard", False)
         encoder = pennylane_args.get("encoder", "angle")
@@ -38,10 +47,18 @@ class QuantumLayer(torch.nn.Module):
         entangler = pennylane_args.get("entangler", "basic")
         imprimitive = pennylane_args.get("imprimitive", "CNOT")
 
+        ancilla_wires = ["ancilla"]
+
+        matrix_dim = int(np.log2(embed_dim)) // 2
+        wires_i = [f"i{index}" for index in range(matrix_dim)]
+        wires_j = [f"j{index}" for index in range(matrix_dim)]
+
         if q_device == "default.qubit.torch":
-            dev = qml.device(q_device, wires=n_qubits, torch_device="cuda")
+            dev = qml.device(
+                q_device, wires=ancilla_wires + wires_i + wires_j, torch_device="cuda"
+            )
         else:
-            dev = qml.device(q_device, wires=n_qubits)
+            dev = qml.device(q_device, wires=ancilla_wires + wires_i + wires_j)
 
         if rot == "X":
             rot = qml.RX  # type: ignore
@@ -61,23 +78,32 @@ class QuantumLayer(torch.nn.Module):
         def qlayer(inputs, weights):
             if hadamard:
                 qml.Hadamard(wires=range(n_qubits))
-            if encoder == "angle":
-                qmlt.AngleEmbedding(inputs, wires=range(n_qubits), rotation=angle_rot)
-            else:
-                qmlt.AmplitudeEmbedding(inputs, wires=range(n_qubits), normalize=True)
+            print("inputs1", inputs.shape)
+            inputs = inputs.reshape(inputs.size(0), 2**matrix_dim, 2**matrix_dim)
+            inputs = inputs / torch.max(torch.abs(inputs))
+            inputs = torch.vmap(lambda x: x / torch.max(torch.abs(x)))(inputs)
+            print(inputs.shape, "inputs2", inputs.shape)
+            FABLE(inputs, wires=ancilla_wires + wires_i + wires_j, tol=0)
+            print(inputs.shape, "inputs3", inputs.shape)
             if entangler == "strong":
                 qmlt.StronglyEntanglingLayers(
-                    weights, wires=range(n_qubits), imprimitive=imprimitive
+                    weights, wires=ancilla_wires + wires_i, imprimitive=imprimitive
                 )
             else:
-                qmlt.BasicEntanglerLayers(weights, wires=range(n_qubits), rotation=rot)
-            return [qml.expval(qml.PauliZ(wires=i)) for i in range(n_qubits)]
+                qmlt.BasicEntanglerLayers(
+                    weights, wires=ancilla_wires + wires_i, rotation=rot
+                )
+            print(inputs.shape, "inputs4", inputs.shape)
+            return [qml.expval(qml.PauliZ(wires=i)) for i in ancilla_wires + wires_i]
 
         weight_shapes = (
-            qml.StronglyEntanglingLayers.shape(n_layers=n_qlayers, n_wires=n_qubits)
+            qml.StronglyEntanglingLayers.shape(
+                n_layers=n_qlayers, n_wires=len(ancilla_wires + wires_i)
+            )
             if entangler == "strong"
-            else (n_qlayers, n_qubits)
+            else (n_qlayers, len(ancilla_wires + wires_i))
         )
+
         self.linear = qml_qnn_torch.TorchLayer(
             qlayer,
             {"weights": weight_shapes},
@@ -85,4 +111,5 @@ class QuantumLayer(torch.nn.Module):
         )
 
     def forward(self, inputs):
+        print("inputs", inputs.shape)
         return self.linear(inputs)

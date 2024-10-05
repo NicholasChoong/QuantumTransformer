@@ -162,7 +162,7 @@ def main(
 
     for iepoch in range(n_epochs):
         with tqdm(
-            total=len(train_data),
+            total=len(train_dataset),
             desc=f"Epoch {iepoch+1:3}/{n_epochs}",
             unit="batch",
             bar_format="{l_bar}{bar:10}{r_bar}{bar:-10b}",

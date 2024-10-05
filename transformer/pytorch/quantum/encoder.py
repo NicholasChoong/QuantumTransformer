@@ -1,3 +1,4 @@
+from math import e
 from typing import Literal
 import torch.nn as nn
 from torch import Tensor
@@ -21,7 +22,8 @@ class Encoder(nn.Module):
         n_qubits_ffn=0,
         n_qlayers=1,
         batch=True,
-        circuit_type: Literal["pennylane", "tensorcircuit"] = "tensorcircuit",
+        circuit_type: Literal["pennylane", "tensorcircuit"] = "pennylane",
+        encoding_type: Literal["angle_amp", "block"] = "angle_amp",
         q_device="default.qubit",
     ):
         super(Encoder, self).__init__()
@@ -40,6 +42,7 @@ class Encoder(nn.Module):
             circuit_type=circuit_type,
             q_device=q_device,
             pennylane_args=pennylane_args,
+            encoding_type=encoding_type,
         )
         self.norm1 = nn.LayerNorm(embed_dim)
         self.dropout1 = nn.Dropout(dropout)
@@ -53,6 +56,7 @@ class Encoder(nn.Module):
             circuit_type=circuit_type,
             q_device=q_device,
             pennylane_args=pennylane_args,
+            encoding_type=encoding_type,
         )
 
         self.norm2 = nn.LayerNorm(embed_dim)

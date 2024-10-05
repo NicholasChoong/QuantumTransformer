@@ -6,7 +6,8 @@ from torch.nn.utils.rnn import pad_sequence
 
 
 from ._tensorcircuit import QuantumLayer as tc_QuantumLayer
-from .pennylane.angle_amp import PennyLaneArgs, QuantumLayer as qml_QuantumLayer
+from .pennylane.angle_amp import PennyLaneArgs, QuantumLayer as qml_QuantumLayer_angle
+from .pennylane.block import QuantumLayer as qml_QuantumLayer_block
 
 
 class FeedForward(nn.Module):
@@ -26,28 +27,40 @@ class FeedForward(nn.Module):
         dropout=0.1,
         batch=True,
         circuit_type: Literal["pennylane", "tensorcircuit"] = "tensorcircuit",
+        encoding_type: Literal["angle_amp", "block"] = "angle_amp",
         q_device="default.qubit",
     ):
         super(FeedForward, self).__init__()
         self.ffn_dim = n_qubits
         self.batch = batch
+        self.encoder = pennylane_args.get("encoder", "angle")
 
         if circuit_type == "pennylane":
-            QuantumLayer = qml_QuantumLayer
+            if encoding_type == "angle_amp":
+                QuantumLayer = qml_QuantumLayer_angle
+            else:
+                QuantumLayer = qml_QuantumLayer_block
         else:
             QuantumLayer = tc_QuantumLayer
 
-        self.linear_1 = nn.Linear(embed_dim, self.ffn_dim)
+        if self.encoder != "amplitude":
+            self.linear_1 = nn.Linear(embed_dim, self.ffn_dim)
         self.linear_2 = nn.Linear(self.ffn_dim, embed_dim)
         self.vqc = QuantumLayer(
-            n_qubits, n_qlayers, q_device=q_device, pennylane_args=pennylane_args
+            n_qubits,
+            n_qlayers,
+            q_device=q_device,
+            pennylane_args=pennylane_args,
+            embed_dim=embed_dim,
         )
         self.gelu = nn.GELU()
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x: Tensor):
         batch_size, seq_len, embed_dim = x.size()
-        x = self.linear_1(x)
+
+        if self.encoder != "amplitude":
+            x = self.linear_1(x)
         if self.batch:
             x = self.vqc(x)
         else:
@@ -56,4 +69,6 @@ class FeedForward(nn.Module):
         x = self.gelu(x)
         x = self.dropout(x)
         x = self.linear_2(x)
+        if self.encoder == "amplitude":
+            x = x.reshape(batch_size, seq_len, -1)
         return x

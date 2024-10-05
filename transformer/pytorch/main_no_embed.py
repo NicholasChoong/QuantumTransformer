@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 
 
 from transformer.pytorch.classic.pos_encoder import PositionalEncoder
+from transformer.pytorch.quantum.pennylane.angle_amp import PennyLaneArgs
 from transformer.pytorch.utils.load_dataloader import load_dataloader
 
 from .text_classifier_no_embed import TextClassifier
@@ -46,7 +47,15 @@ def main(
     q_device="default.qubit",
     batch=True,
     circuit_type: Literal["pennylane", "tensorcircuit"] = "tensorcircuit",
-    pennylane_args={},
+    encoding_type: Literal["angle_amp", "block"] = "angle_amp",
+    pennylane_args: PennyLaneArgs = {
+        "hadamard": False,
+        "encoder": "angle",
+        "angle_rot": "Z",
+        "entangler": "basic",
+        "rot": "Z",
+        "imprimitive": "Z",
+    },
     multi_gpu: bool = False,
 ):
 
@@ -71,6 +80,7 @@ def main(
         circuit_type=circuit_type,
         pennylane_args=pennylane_args,
         pooling_method=pooling_method,
+        encoding_type=encoding_type,
     )
 
     print(model)

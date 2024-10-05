@@ -28,6 +28,7 @@ class QuantumLayer(torch.nn.Module):
             "rot": "Z",
             "imprimitive": "Z",
         },
+        embed_dim=4,
     ):
         super().__init__()
 
@@ -37,6 +38,8 @@ class QuantumLayer(torch.nn.Module):
         rot = pennylane_args.get("rot", "Z")
         entangler = pennylane_args.get("entangler", "basic")
         imprimitive = pennylane_args.get("imprimitive", "CNOT")
+
+        self.encoder = encoder
 
         if q_device == "default.qubit.torch":
             dev = qml.device(q_device, wires=n_qubits, torch_device="cuda")
@@ -78,6 +81,10 @@ class QuantumLayer(torch.nn.Module):
             if entangler == "strong"
             else (n_qlayers, n_qubits)
         )
+
+        # if encoder == "amplitude":
+        #     qlayer = qml.transforms.broadcast_expand(qlayer)
+
         self.linear = qml_qnn_torch.TorchLayer(
             qlayer,
             {"weights": weight_shapes},
@@ -85,4 +92,7 @@ class QuantumLayer(torch.nn.Module):
         )
 
     def forward(self, inputs):
+        if self.encoder == "amplitude":
+            batch_size, seq_len, embed_dim = inputs.size()
+            inputs = inputs.reshape(-1, embed_dim)
         return self.linear(inputs)
