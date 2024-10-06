@@ -1,5 +1,13 @@
 {
     "git.ignoreLimitWarning": true,
     "git.enableCommitSigning": false,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "notebook.defaultFormatter": "ms-python.black-formatter",
+    "notebook.diff.overviewRuler": true,
+    "notebook.outline.showCodeCells": false,
+    "notebook.output.textLineLimit": 30,
+    "notebook.lineNumbers": "on",
+    "notebook.backup.sizeLimit": 100000,
+    "notebook.output.scrolling": true,
+    "notebook.stickyScroll.enabled": true
 }
