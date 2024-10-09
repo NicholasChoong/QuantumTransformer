@@ -101,6 +101,7 @@ def main(
     best_val_auc, best_epoch_auc = 0.0, 0
     train_loss_list, train_acc_list, val_loss_list, val_acc_list = [], [], [], []
     train_auc_list, val_auc_list = [], []
+    param_updates_list, para_grads_list = [], []
     for iepoch in range(n_epochs):
         with tqdm(
             total=len(train_dataloader),
@@ -111,7 +112,7 @@ def main(
         ) as progress_bar:
             operation_start_time = time()
 
-            train_loss, train_acc, train_auc = train(
+            train_loss, train_acc, train_auc, param_updates, para_grads = train(
                 model,
                 train_dataloader,
                 optimizer,
@@ -137,6 +138,9 @@ def main(
             val_acc_list.append(val_acc)
             train_auc_list.append(train_auc)
             val_auc_list.append(val_auc)
+
+            param_updates_list.append(param_updates)
+            para_grads_list.append(para_grads)
 
             progress_bar.set_postfix_str(
                 (
@@ -186,13 +190,15 @@ def main(
 
     print(f"TOTAL TIME = {time()-start_time:.2f}s")
     print(f"BEST ACC = {best_val_acc:.2f}% AT EPOCH {best_epoch_acc}")
-    print(f"BEST AUC = {best_val_auc:.2f} AT EPOCH {best_epoch_auc}")
+    print(f"BEST AUC = {best_val_auc:.2f}% AT EPOCH {best_epoch_auc}")
 
     best_dict = {
         "best_val_acc": best_val_acc,
         "best_epoch_acc": best_epoch_acc,
         "best_val_auc": best_val_auc,
         "best_epoch_auc": best_epoch_auc,
+        "param_updates": param_updates_list,
+        "param_grads": para_grads_list,
     }
 
     return (

@@ -31,6 +31,9 @@ def train(
     epoch_true = []
     epoch_pred = []
 
+    param_updates = {}
+    param_grads = {}
+
     model.train()
     for i, (lab, input) in enumerate(dataloader):
         optimizer.zero_grad()
@@ -47,6 +50,16 @@ def train(
         loss.backward()
         optimizer.step()
 
+        for name, param in model.named_parameters():
+            if name not in param_updates:
+                param_updates[name] = []
+            if name not in param_grads:
+                param_grads[name] = []
+
+            param_updates[name].append(param.data.norm().item())
+            if param.grad is not None:
+                param_grads[name].append(param.grad.norm().item())
+
         epoch_loss.append(loss.item())
         epoch_acc.append(acc.item())
         epoch_true.extend(label.tolist())
@@ -54,9 +67,20 @@ def train(
 
         progress_bar.update(1)
 
-    # print(epoch_loss, epoch_acc, len(dataloader.dataset))
+        # print(epoch_loss, epoch_acc, len(dataloader.dataset))
+
+    avg_param_updates = {
+        name: np.mean(updates) for name, updates in param_updates.items()
+    }
+    avg_param_grads = {name: np.mean(grads) for name, grads in param_grads.items()}
 
     epoch_auc = 100.0 * roc_auc_score(epoch_true, epoch_pred, multi_class="ovr")
     scheduler.step()
     # divide the total loss by the total number of batches per epoch
-    return np.mean(epoch_loss), np.mean(epoch_acc), epoch_auc
+    return (
+        100.0 * np.mean(epoch_loss),
+        100.0 * np.mean(epoch_acc),
+        epoch_auc,
+        avg_param_updates,
+        avg_param_grads,
+    )

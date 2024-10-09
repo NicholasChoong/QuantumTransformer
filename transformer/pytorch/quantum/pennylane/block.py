@@ -40,6 +40,10 @@ class QuantumLayer(torch.nn.Module):
             math.log2(embed_dim) % 2 == 0
         ), "Embedding dimension should fit 2**n * 2**n."
 
+        assert (
+            n_qubits == int(np.log2(embed_dim)) // 2
+        ), "Number of qubits should be equal to matrix_dim"
+
         hadamard = pennylane_args.get("hadamard", False)
         encoder = pennylane_args.get("encoder", "angle")
         angle_rot = pennylane_args.get("angle_rot", "Z")
@@ -52,6 +56,8 @@ class QuantumLayer(torch.nn.Module):
         matrix_dim = int(np.log2(embed_dim)) // 2
         wires_i = [f"i{index}" for index in range(matrix_dim)]
         wires_j = [f"j{index}" for index in range(matrix_dim)]
+
+        self.matrix_dim = matrix_dim
 
         if q_device == "default.qubit.torch":
             dev = qml.device(
@@ -76,15 +82,9 @@ class QuantumLayer(torch.nn.Module):
 
         @qml.qnode(dev, interface="torch")
         def qlayer(inputs, weights):
-            if hadamard:
-                qml.Hadamard(wires=range(n_qubits))
-            print("inputs1", inputs.shape)
-            inputs = inputs.reshape(inputs.size(0), 2**matrix_dim, 2**matrix_dim)
-            inputs = inputs / torch.max(torch.abs(inputs))
+            inputs = inputs.reshape(-1, 2**self.matrix_dim, 2**self.matrix_dim)
             inputs = torch.vmap(lambda x: x / torch.max(torch.abs(x)))(inputs)
-            print(inputs.shape, "inputs2", inputs.shape)
             FABLE(inputs, wires=ancilla_wires + wires_i + wires_j, tol=0)
-            print(inputs.shape, "inputs3", inputs.shape)
             if entangler == "strong":
                 qmlt.StronglyEntanglingLayers(
                     weights, wires=ancilla_wires + wires_i, imprimitive=imprimitive
@@ -93,7 +93,6 @@ class QuantumLayer(torch.nn.Module):
                 qmlt.BasicEntanglerLayers(
                     weights, wires=ancilla_wires + wires_i, rotation=rot
                 )
-            print(inputs.shape, "inputs4", inputs.shape)
             return [qml.expval(qml.PauliZ(wires=i)) for i in ancilla_wires + wires_i]
 
         weight_shapes = (
@@ -110,6 +109,11 @@ class QuantumLayer(torch.nn.Module):
             init_method=torch.nn.init.kaiming_normal_,
         )
 
+        self.squeeze = torch.nn.Linear(
+            len(ancilla_wires + wires_i), len(ancilla_wires + wires_i) - 1
+        )
+
     def forward(self, inputs):
-        print("inputs", inputs.shape)
-        return self.linear(inputs)
+        x = self.linear(inputs)
+        x = self.squeeze(x)
+        return x

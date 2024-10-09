@@ -41,6 +41,7 @@ class MultiHeadedAttention(nn.Module):
         self.dim_k = n_qubits // num_heads  # projection dimensions
         self.batch = batch
         self.encoder = pennylane_args.get("encoder", "angle")
+        self.encoding_type = encoding_type
 
         print(f"weight_shapes = (n_qlayers, n_qubits) = ({n_qlayers}, {n_qubits})")
 
@@ -86,7 +87,7 @@ class MultiHeadedAttention(nn.Module):
         self.attn_weights: Tensor | None = None
         self.dropout = nn.Dropout(p=dropout)
 
-        if self.encoder == "amplitude":
+        if self.encoding_type == "block" or self.encoder == "amplitude":
             self.unsqueeze1 = nn.Linear(self.dim_k, embed_dim // num_heads)
             self.unsqueeze2 = nn.Linear(n_qubits, embed_dim)
 
@@ -116,10 +117,10 @@ class MultiHeadedAttention(nn.Module):
 
         # x: Tensor
         x, self.attn_weights = attention(Q, K, V, dropout=self.dropout)
-        if self.encoder == "amplitude":
+        if self.encoding_type == "block" or self.encoder == "amplitude":
             x = self.unsqueeze1(x)
         x = x.transpose(1, 2).reshape(batch_size, seq_len, embed_dim)
         output = self.combine_heads(x)
-        if self.encoder == "amplitude":
+        if self.encoding_type == "block" or self.encoder == "amplitude":
             output = self.unsqueeze2(output).reshape(batch_size, seq_len, -1)
         return output
