@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH --job-name=yelp
+#SBATCH --job-name=amazon-amplitude
 #SBATCH --partition=gpu
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=36
@@ -30,7 +30,7 @@ conda activate $MYGROUP/qt
 # Below is the Python file that would be run. Replace
 # lab05-sample.ipynb by your own file name.
 # NAME=3_angle_rzx_basic_qvc
-NAME=yelp
+NAME=amazon-amplitude
 EXT=ipynb
 SCRIPT=$NAME.$EXT
 

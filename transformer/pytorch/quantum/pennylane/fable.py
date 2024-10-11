@@ -78,21 +78,18 @@ class FABLE(Operation):
         inputs_matrix, wires, tol=0
     ):  # pylint:disable=arguments-differ
         op_list = []
-        # print(inputs_matrix.shape)
-        # print(inputs_matrix[0])
-        input_matrix = inputs_matrix[0]
-        # alphas = qml.math.arccos(inputs_matrix).flatten()
-        # alphas = torch.arccos(inputs_matrix).reshape(inputs_matrix.shape[0], -1)
-        alphas = torch.arccos(input_matrix).flatten()
-        # print(alphas.shape)
-        thetas = compute_theta(alphas)
-        # print(thetas)
+        alphas = torch.arccos(inputs_matrix).reshape(inputs_matrix.shape[0], -1)
+        thetas = torch.stack([compute_theta(alpha) for alpha in alphas])
+
+        batched = qml.math.ndim(thetas) > 1
+
+        thetas_batch = qml.math.T(thetas) if batched else [thetas]
 
         ancilla = [wires[0]]
         wires_i = wires[1 : 1 + len(wires) // 2][::-1]
         wires_j = wires[1 + len(wires) // 2 : len(wires)][::-1]
 
-        code = gray_code((2 * qml.math.log2(len(input_matrix))))
+        code = gray_code((2 * qml.math.log2(len(inputs_matrix[0]))))
         n_selections = len(code)
 
         control_wires = [
@@ -100,31 +97,13 @@ class FABLE(Operation):
             for i in range(n_selections)
         ]
         wire_map = dict(enumerate(wires_j + wires_i))
-
         for w in wires_i:
             op_list.append(qml.Hadamard(w))
 
-        nots = {}
-        for theta, control_index in zip(thetas, control_wires):
-            # print("theta", theta)
-            if qml.math.is_abstract(theta):
-                for c_wire in nots:
-                    op_list.append(qml.CNOT(wires=[c_wire] + ancilla))
-                op_list.append(qml.RY(2 * theta, wires=ancilla))
-                nots[wire_map[control_index]] = 1
-            else:
-                if abs(2 * theta) > tol:
-                    for c_wire in nots:
-                        op_list.append(qml.CNOT(wires=[c_wire] + ancilla))
-                    op_list.append(qml.RY(2 * theta, wires=ancilla))
-                    nots = {}
-                if wire_map[control_index] in nots:
-                    del nots[wire_map[control_index]]
-                else:
-                    nots[wire_map[control_index]] = 1
-
-        for c_wire in nots:
-            op_list.append(qml.CNOT([c_wire] + ancilla))
+        # for thetas in thetas_batch:
+        for i, (thetas, control_index) in enumerate(zip(thetas_batch, control_wires)):
+            op_list.append(qml.RZ(2 * thetas, wires=ancilla))
+            op_list.append(qml.CNOT(wires=[wire_map[control_index]] + ancilla))
 
         for w_i, w_j in zip(wires_i, wires_j):
             op_list.append(qml.SWAP(wires=[w_i, w_j]))

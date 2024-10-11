@@ -42,4 +42,10 @@ Output Notebook: ./yelp.papermill.ipynb
 2024-10-05 11:03:28.712669: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 2024-10-05 11:03:32.608310: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-Executing:  20%|██        | 3/15 [00:28<02:00, 10.08s/cell]Executing:  47%|████▋     | 7/15 [18:19<24:41, 185.19s/cell]Executing:  60%|██████    | 9/15 [30:13<24:07, 241.24s/cell]Executing:  67%|██████▋   | 10/15 [30:14<16:18, 195.73s/cell]
+Executing:  20%|██        | 3/15 [00:28<02:00, 10.08s/cell]Executing:  47%|████▋     | 7/15 [18:19<24:41, 185.19s/cell]Executing:  60%|██████    | 9/15 [30:13<24:07, 241.24s/cell]Executing:  67%|██████▋   | 10/15 [30:14<16:18, 195.73s/cell]Executing:  80%|████████  | 12/15 [7:42:47<3:54:00, 4680.03s/cell]Executing:  87%|████████▋ | 13/15 [7:42:49<2:04:45, 3742.53s/cell]Executing:  93%|█████████▎| 14/15 [18:14:36<3:09:06, 11346.35s/cell]Executing: 100%|██████████| 15/15 [18:14:38<00:00, 8609.53s/cell]   Wait for final termination of kernel timed out - continuing...
+Executing: 100%|██████████| 15/15 [18:14:48<00:00, 4379.26s/cell]
+mv /scratch/pmc026/nchoong/run_conda/522206 /group/pmc026/nchoong/QuantumTransformer/conda_results
+Please see the /group/pmc026/nchoong/QuantumTransformer/conda_results directory for any output
+
+Mothur MPI job started  at Sat Oct  5 11:03:10 AWST 2024
+Mothur MPI job finished at Sun Oct  6 05:18:04 AWST 2024

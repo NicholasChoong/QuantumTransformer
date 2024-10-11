@@ -44,4 +44,4 @@ def evaluate(
     epoch_auc = 100.0 * roc_auc_score(epoch_true, epoch_pred, multi_class="ovr")
 
     # divide the total loss by the total number of batches per epoch
-    return np.mean(epoch_loss), np.mean(epoch_acc), epoch_auc
+    return 100.0 * np.mean(epoch_loss), 100.0 * np.mean(epoch_acc), epoch_auc

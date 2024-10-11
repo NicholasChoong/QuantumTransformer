@@ -34,6 +34,7 @@ class FeedForward(nn.Module):
         self.ffn_dim = n_qubits
         self.batch = batch
         self.encoder = pennylane_args.get("encoder", "angle")
+        self.encoding_type = encoding_type
 
         if circuit_type == "pennylane":
             if encoding_type == "angle_amp":
@@ -43,7 +44,7 @@ class FeedForward(nn.Module):
         else:
             QuantumLayer = tc_QuantumLayer
 
-        if self.encoder != "amplitude":
+        if self.encoding_type == "angle_amp" or self.encoder == "angle":
             self.linear_1 = nn.Linear(embed_dim, self.ffn_dim)
         self.linear_2 = nn.Linear(self.ffn_dim, embed_dim)
         self.vqc = QuantumLayer(
@@ -59,8 +60,8 @@ class FeedForward(nn.Module):
     def forward(self, x: Tensor):
         batch_size, seq_len, embed_dim = x.size()
 
-        if self.encoder != "amplitude":
-            x = self.linear_1(x)
+        # if self.encoding_type == "angle_amp" or self.encoder == "angle":
+        #     x = self.linear_1(x)
         if self.batch:
             x = self.vqc(x)
         else:
@@ -69,6 +70,6 @@ class FeedForward(nn.Module):
         x = self.gelu(x)
         x = self.dropout(x)
         x = self.linear_2(x)
-        if self.encoder == "amplitude":
+        if self.encoding_type == "block" or self.encoder == "amplitude":
             x = x.reshape(batch_size, seq_len, -1)
         return x
