@@ -1,0 +1,98 @@
+++ There will be 2 transformer blocks
+++ Transformer will use 8 qubits and 3 q layers
+The feed-forward head will use 8 qubits
+Using PennyLane quantum device default.qubit.torch
+weight_shapes = (n_qlayers, n_qubits) = (3, 8)
+weight_shapes = (n_qlayers, n_qubits) = (3, 8)
+TextClassifier(
+  (squeeze): Linear(in_features=768, out_features=8, bias=True)
+  (transformers): ModuleList(
+    (0-1): 2 x Encoder(
+      (attn): MultiHeadedAttention(
+        (k_linear): QuantumLayer(
+          (linear): <Quantum Torch Layer: func=qlayer>
+        )
+        (q_linear): QuantumLayer(
+          (linear): <Quantum Torch Layer: func=qlayer>
+        )
+        (v_linear): QuantumLayer(
+          (linear): <Quantum Torch Layer: func=qlayer>
+        )
+        (combine_heads): QuantumLayer(
+          (linear): <Quantum Torch Layer: func=qlayer>
+        )
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (norm1): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
+      (dropout1): Dropout(p=0.1, inplace=False)
+      (ffn): FeedForward(
+        (linear_1): Linear(in_features=8, out_features=8, bias=True)
+        (linear_2): Linear(in_features=8, out_features=8, bias=True)
+        (vqc): QuantumLayer(
+          (linear): <Quantum Torch Layer: func=qlayer>
+        )
+        (gelu): GELU(approximate='none')
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (norm2): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
+      (dropout2): Dropout(p=0.1, inplace=False)
+    )
+  )
+  (dropout): Dropout(p=0.1, inplace=False)
+  (layer_norm): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
+  (class_logits): Linear(in_features=8, out_features=1, bias=True)
+)
+Layer Name                               Number of Parameters
+============================================================
+squeeze.weight                           6144
+squeeze.bias                             8
+transformers.0.attn.k_linear.linear.weights 24
+transformers.0.attn.q_linear.linear.weights 24
+transformers.0.attn.v_linear.linear.weights 24
+transformers.0.attn.combine_heads.linear.weights 24
+transformers.0.norm1.weight              8
+transformers.0.norm1.bias                8
+transformers.0.ffn.linear_1.weight       64
+transformers.0.ffn.linear_1.bias         8
+transformers.0.ffn.linear_2.weight       64
+transformers.0.ffn.linear_2.bias         8
+transformers.0.ffn.vqc.linear.weights    24
+transformers.0.norm2.weight              8
+transformers.0.norm2.bias                8
+transformers.1.attn.k_linear.linear.weights 24
+transformers.1.attn.q_linear.linear.weights 24
+transformers.1.attn.v_linear.linear.weights 24
+transformers.1.attn.combine_heads.linear.weights 24
+transformers.1.norm1.weight              8
+transformers.1.norm1.bias                8
+transformers.1.ffn.linear_1.weight       64
+transformers.1.ffn.linear_1.bias         8
+transformers.1.ffn.linear_2.weight       64
+transformers.1.ffn.linear_2.bias         8
+transformers.1.ffn.vqc.linear.weights    24
+transformers.1.norm2.weight              8
+transformers.1.norm2.bias                8
+layer_norm.weight                        8
+layer_norm.bias                          8
+class_logits.weight                      8
+class_logits.bias                        1
+The model has 6,769 trainable parameters
+Epoch   1/15: 100%|██████████| 1250/1250 [28:19<00:00,  1.36s/batch, Epoch = 28m 19s, Loss = 0.4173|0.3522, Acc = 0.822|0.855, AUC = 89.098|93.172]
+Epoch   2/15: 100%|██████████| 1250/1250 [28:23<00:00,  1.36s/batch, Epoch = 28m 23s, Loss = 0.3740|0.3310, Acc = 0.842|0.855, AUC = 91.324|93.504]
+Epoch   3/15: 100%|██████████| 1250/1250 [29:00<00:00,  1.39s/batch, Epoch = 29m 0s, Loss = 0.3656|0.3321, Acc = 0.846|0.859, AUC = 91.726|93.620]
+Epoch   4/15: 100%|██████████| 1250/1250 [28:53<00:00,  1.39s/batch, Epoch = 28m 53s, Loss = 0.3586|0.3272, Acc = 0.849|0.857, AUC = 92.042|93.543]
+Epoch   5/15: 100%|██████████| 1250/1250 [28:52<00:00,  1.39s/batch, Epoch = 28m 52s, Loss = 0.3548|0.3323, Acc = 0.850|0.856, AUC = 92.212|93.719]
+Epoch   6/15: 100%|██████████| 1250/1250 [28:50<00:00,  1.38s/batch, Epoch = 28m 50s, Loss = 0.3428|0.3324, Acc = 0.858|0.859, AUC = 92.724|93.738]
+Epoch   7/15: 100%|██████████| 1250/1250 [28:44<00:00,  1.38s/batch, Epoch = 28m 44s, Loss = 0.3425|0.3281, Acc = 0.858|0.859, AUC = 92.737|93.743]
+Epoch   8/15: 100%|██████████| 1250/1250 [28:47<00:00,  1.38s/batch, Epoch = 28m 47s, Loss = 0.3433|0.3326, Acc = 0.858|0.859, AUC = 92.696|93.732]
+Epoch   9/15: 100%|██████████| 1250/1250 [28:55<00:00,  1.39s/batch, Epoch = 28m 55s, Loss = 0.3410|0.3383, Acc = 0.858|0.860, AUC = 92.814|93.717]
+Epoch  10/15: 100%|██████████| 1250/1250 [28:56<00:00,  1.39s/batch, Epoch = 28m 56s, Loss = 0.3410|0.3319, Acc = 0.858|0.859, AUC = 92.801|93.739]
+Epoch  11/15: 100%|██████████| 1250/1250 [28:57<00:00,  1.39s/batch, Epoch = 28m 57s, Loss = 0.3388|0.3292, Acc = 0.860|0.859, AUC = 92.889|93.743]
+Epoch  12/15: 100%|██████████| 1250/1250 [28:53<00:00,  1.39s/batch, Epoch = 28m 53s, Loss = 0.3395|0.3295, Acc = 0.859|0.860, AUC = 92.877|93.741]
+Epoch  13/15: 100%|██████████| 1250/1250 [28:58<00:00,  1.39s/batch, Epoch = 28m 58s, Loss = 0.3374|0.3292, Acc = 0.860|0.859, AUC = 92.963|93.743]
+Epoch  14/15: 100%|██████████| 1250/1250 [29:03<00:00,  1.39s/batch, Epoch = 29m 3s, Loss = 0.3387|0.3292, Acc = 0.861|0.859, AUC = 92.890|93.741]
+Epoch  15/15: 100%|██████████| 1250/1250 [28:54<00:00,  1.39s/batch, Epoch = 28m 54s, Loss = 0.3390|0.3291, Acc = 0.859|0.859, AUC = 92.895|93.743]
+TOTAL TIME = 25951.88s
+BEST ACC = 0.86% AT EPOCH 12
+BEST AUC = 93.74 AT EPOCH 15
+

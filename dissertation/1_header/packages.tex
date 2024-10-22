@@ -1,0 +1,66 @@
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{layout}
+\usepackage{lscape}
+\usepackage{xfrac}
+\usepackage{tabularx}
+\usepackage{rotating}
+\usepackage{longtable}
+%\usepackage{todonotes}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linktoc=all,
+  citecolor=black,
+  linkcolor=black,
+  urlcolor=red,
+  % linktocpage=true,
+}
+\usepackage{cleveref}
+
+\usepackage[square,numbers,sort&compress, sectionbib]{natbib}
+\usepackage{chapterbib}
+
+\setlength\bibhang{.3in}
+
+\usepackage{tocloft} % for table of contents
+
+\usepackage{lineno}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{microtype}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage[labelfont=bf]{caption}
+% For electronic submission use:
+\usepackage[inner=2cm,outer=2cm,top=2cm=bottom=2cm]{geometry}
+% For printing use:
+%\usepackage[inner=4cm,outer=2cm,top=2cm=bottom=2cm]{geometry}
+\usepackage{tocbibind}
+
+\usepackage{subfig}    % needed for \subfloat
+\usepackage{titlesec}
+\usepackage{derivative}
+\usepackage{enumerate} % needed for the enumerate environment
+
+\usepackage{subfiles} % Best loaded last in the preamble
+
+%glossary for acronyms
+\usepackage[acronym,nonumberlist,toc,section=subsection,numberedsection=nolabel]{glossaries}
+\input{1_header/glossary}
+
+\setlength{\headheight}{14.5pt}
+\addtolength{\topmargin}{-2.5pt}
+
+\fancyhf{}
+\fancyhead[L]{\bfseries\nouppercase{\leftmark\hfill\rightmark}}
+\fancyfoot[C]{\thepage}
+\pagestyle{fancy}
+
+\newcommand\frontmatter{\pagenumbering{roman}}
+\newcommand\mainmatter{\cleardoublepage\pagenumbering{arabic}}

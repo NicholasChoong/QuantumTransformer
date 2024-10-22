@@ -18,7 +18,7 @@ from lib.eval import evaluate
 from lib.parameter_count import count_parameters
 from lib.train import train
 
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 from config import dev
 
@@ -167,7 +167,7 @@ def main(
                 best_test_acc = test_acc
                 best_epoch = iepoch + 1
 
-    print(f"TOTAL TIME = {time.time()-start_time:.2f}s")
+    print(f"TOTAL TIME = {time()-start_time:.2f}s")
     print(f"BEST ACC = {best_test_acc:.2f}% AT EPOCH {best_epoch}")
 
     return (train_loss_list, train_acc_list, test_loss_list, test_acc_list)

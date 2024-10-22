@@ -1,0 +1,240 @@
+\section{Motivations}
+\label{sec:motivations}
+Over the past few decades, the exponential growth of deep learning
+has led to groundbreaking advancements that have not only transformed
+computer science but have also permeated numerous other disciplines
+and industries. The profound impact of deep learning is evident in
+its integration into various aspects of daily life—from enhancing
+virtual assistants and powering autonomous vehicles to
+revolutionising healthcare diagnostics and financial analytics. Deep
+learning models have achieved superhuman performance in tasks such as
+computer vision, natural language processing (NLP), and generative
+artificial intelligence (AI), enabling the creation of human-like
+outputs across multiple media, including text, images, audio, and video.
+
+This influence was further emphasised in 2024 when John J. Hopfield
+and Geoffrey E. Hinton were jointly awarded the Nobel Prize in
+Physics for their seminal contributions to artificial neural
+networks. Hopfield's pioneering work on associative memory models and
+Hinton's revolutionisation of the backpropagation algorithm laid the
+foundational architectures of modern deep learning. The recognition
+by the Nobel Committee not only highlights the interdisciplinary
+nature of their work but also cements the significance of deep
+learning in advancing scientific and technological progress.
+
+Despite these remarkable achievements, the rapid evolution of deep
+learning has brought several limitations to the forefront,
+particularly concerning the computational and financial resources
+required to train increasingly complex models. As model architectures
+grow in depth and breadth, the demand for vast amounts of data and
+processing power escalates, presenting significant barriers to
+scalability and broader application. Classical hardware, while
+powerful, faces inherent limitations in handling the ever-growing
+demands of cutting-edge AI models. This is especially evident in
+emerging fields like multimodal learning, artificial general
+intelligence, and protein folding, where the sheer scale of
+computations challenges even the most advanced classical systems.
+
+In response to these challenges, quantum computing has emerged as a
+promising paradigm that could potentially overcome the limitations of
+classical computing. By leveraging the principles of quantum
+mechanics, quantum computing offers the potential to process
+information in fundamentally new ways, providing exponential speedups
+for certain tasks. Quantum phenomena such as superposition and
+entanglement allow quantum computers to explore vast computational
+spaces more efficiently than classical bits, opening up new avenues
+for tackling problems previously considered intractable. The
+implications of quantum computing extend across various sectors,
+including cryptography, optimisation, and artificial intelligence.
+
+At the intersection of deep learning and quantum computing lies the
+potential for a new class of models: quantum deep learning models,
+particularly quantum transformers. Inspired by classical transformer
+models—which have revolutionised NLP, computer vision, and generative
+AI—these quantum counterparts aim to enhance capabilities by
+exploiting the unique properties of qubits, such as superposition,
+entanglement, and quantum parallelism. Quantum transformers hold the
+promise of processing information more efficiently, enabling more
+scalable and resource-efficient models. This presents exciting
+possibilities for advancing tasks like language translation, image
+generation, and even more complex applications that push the boundaries of AI.
+
+Recent developments have seen claims that quantum transformers can
+outperform classical models in specific scenarios, achieving
+comparable or superior results with fewer resources. For instance,
+the work of~\citet{Cherrat_2024} suggests that quantum vision
+transformers can attain accuracies that meet or exceed those of
+classical vision transformers. However, these claims face significant
+challenges. Quantum hardware remains in developmental stages, making
+the implementation of quantum algorithms complex and
+resource-intensive. Additionally, training quantum neural networks,
+including quantum transformers, often encounters the problem of
+barren plateaus—regions in the optimisation landscape where gradients
+vanish, hindering effective training.
+
+Moreover, the theoretical and practical aspects of integrating
+quantum computing with deep learning are still under active research.
+Issues such as error correction in quantum systems, decoherence, and
+the scalability of quantum circuits pose substantial hurdles. The
+quantum machine learning community is actively exploring algorithms
+and architectures that can mitigate these problems, aiming to unlock
+the full potential of quantum-enhanced AI.
+
+The convergence of quantum computing and deep learning represents a
+frontier with immense potential but also significant uncertainty. As
+both fields continue to evolve, their intersection could lead to
+breakthroughs that redefine computational capabilities and transform
+industries. Understanding the current landscape, the challenges, and
+the opportunities is crucial for advancing this emerging area of research.
+
+The integration of quantum mechanics into deep learning models also
+raises philosophical and ethical considerations. The prospect of
+machines that can process information in fundamentally new ways
+prompts questions about the future of AI, the nature of intelligence,
+and the potential societal impacts. There is a growing discourse on
+how quantum-enhanced AI could influence areas such as data privacy,
+security, and employment, highlighting the need for interdisciplinary
+collaboration in addressing these concerns.
+
+Historically, technological advancements have often led to paradigm
+shifts in society. The steam engine ignited the Industrial
+Revolution, electricity transformed daily life and industry, and the
+internet revolutionised communication and information access.
+Similarly, the fusion of quantum computing and AI could bring forth a new
+era of innovation. Industries such as pharmaceuticals might see
+accelerated drug discovery processes, finance could benefit from more
+sophisticated modeling and risk assessment, and logistics could
+achieve unprecedented optimisation levels.
+
+In summary, the advent of quantum computing offers a promising avenue
+to address the limitations faced by classical deep learning models.
+Quantum transformers, by harnessing the unique properties of quantum
+mechanics, could potentially revolutionise AI by enabling more
+efficient and powerful models. As we stand at the cusp of this new
+era, exploring the interplay between quantum computing and deep
+learning is not only intriguing but also essential for the future of
+computational science.
+
+The journey toward realising the full potential of quantum
+transformers is fraught with challenges but also rich with
+opportunities. Continued research and innovation in this field could
+lead to significant breakthroughs that redefine the limits of machine
+learning and computation. The implications of such advancements are
+vast, promising transformative applications across industries and
+disciplines, and ushering in a new chapter in the story of
+technological progress.
+
+\section{Research Objectives}
+\label{sec:research_objectives}
+
+The convergence of quantum computing and deep learning presents a
+frontier ripe with potential for significant advancements in
+artificial intelligence. This research seeks to explore this
+intersection by focusing on quantum transformers.
+The primary objectives of this study are outlined as follows:
+
+\begin{enumerate}
+  \item  \textbf{Design and Optimise New Quantum Circuits}
+
+    The goal is to explore and implement various quantum circuit
+    designs for use in quantum transformers. This includes
+    investigating different data encoding methods such as amplitude
+    encoding, angle encoding, and block encoding to effectively
+    represent input data within quantum circuits. We will employ
+    Pennylane's basic and strong entangling layers for constructing
+    \glspl{VQC} to enhance the expressibility
+    and entangling capabilities of the quantum circuits.
+    Additionally, we will use an autoencoder to adjust the dimension
+    of the word embedding to fit into the next layer, ensuring
+    efficient data flow through the quantum and classical components.
+
+  \item  \textbf{Compare Quantum and Classical Models and Attempt to
+    Reproduce Existing Results}
+
+    To conduct a thorough comparison between quantum and classical
+    transformer models, focusing on accuracy, \gls{AUC}, and computational
+    resources. This includes an effort to reproduce results from
+    recent studies to assess the performance and potential benefits
+    of quantum circuits in these models.
+
+  \item  \textbf{Reduce Quantum Model Training Time on Simulated
+    Quantum Computers}
+
+    To explore different quantum computing frameworks, such as
+    Pennylane and TensorCircuit, as well as classical deep learning
+    frameworks like PyTorch and TensorFlow. The goal is to optimise
+    the training process, making quantum transformer models more
+    manageable to be trained on simulated quantum computers,
+    potentially reducing the overall training time and making them
+    more feasible for practical applications.
+
+\end{enumerate}
+
+By pursuing these objectives, our research aims to contribute to the
+foundational understanding and practical advancement of quantum
+transformers. This work seeks to explore and demonstrate the
+capabilities and limitations of integrating quantum computing with
+deep learning, ultimately contributing to the evolution of artificial
+intelligence in the quantum era.
+
+\section{Our Contributions}
+\label{sec:contributions}
+
+TODO: This research makes several key contributions to the field of quantum...
+
+\subsection{Open Source Code Contributions}
+\label{subsec:open_source_code_contributions}
+
+As part of this research, we have contributed to the
+open-source community by making our code publicly available. The code
+for the quantum transformers, including the design and implementation
+of quantum circuits, is hosted on \href{https://github.com/}{GitHub}.
+This repository provides a
+comprehensive set of tools and resources for researcherss interested
+in quantum machine learning and transformer-based models. Our code
+repository can be found at
+\url{https://github.com/NicholasChoong/QuantumTransformer}.
+
+\section{Outline}
+\label{sec:outline}
+
+This dissertation is structured as follows:
+
+\begin{enumerate}
+  \item \textbf{\hyperref[chap:literature]{Chapter 2: Literature Review}}
+
+    This chapter presents a comprehensive review of the existing
+    literature on transformer models, quantum machine learning,
+    quantum neural networks, and variational quantum circuits. It
+    also discusses various data embedding techniques and the
+    limitations of current models, providing a foundation for the
+    development of quantum transformers.
+
+  \item \textbf{\hyperref[chap:methodology]{Chapter 3: Methodology}}
+
+    The methodology outlines the research design, data collection,
+    and the detailed implementation of both classical and quantum
+    transformers. The approaches for training and evaluating these
+    models are also described.
+
+  \item \textbf{\hyperref[chap:results]{Chapter 4: Experiments and Results}}
+
+    This chapter details the experimental setup, describes the
+    conducted experiments, and presents the results of the quantum
+    and classical transformer models. The performance metrics and
+    analysis of the models are also discussed in this section.
+
+  \item \textbf{\hyperref[chap:conclusion]{Chapter 5: Conclusion and
+    Future Work}}
+
+    The conclusion summarises the key contributions of this research,
+    reflecting on the outcomes of the experiments and the broader
+    implications for the field of quantum machine learning. The
+    chapter also outlines potential directions for future research.
+
+  \item \textbf{\hyperref[apx:proposal]{Appendices}}
+
+    The appendices include supplementary materials such as the
+    research proposal, pseudo code, and a detailed analysis of the
+    training speed of the models.
+\end{enumerate}

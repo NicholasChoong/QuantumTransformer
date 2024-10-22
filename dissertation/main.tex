@@ -1,0 +1,68 @@
+\documentclass[12pt,a4paper,final,titlepage,openany]{report}
+
+\input{1_header/packages.tex}
+
+\begin{document}
+\input{1_header/title.tex}
+
+\restoregeometry
+\sloppy
+\frontmatter
+
+\chapter*{Abstract}
+\label{chap:abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{1_header/abstract.tex}
+
+\pagebreak
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+\pagebreak
+\listoffigures
+\pagebreak
+\listoftables
+
+\mainmatter
+\raggedbottom
+
+\chapter{Introduction}
+\label{chap:introduction}
+\input{1_header/introduction.tex}
+
+\chapter{Literature Review}
+\label{chap:literature}
+\input{2_body/literature.tex}
+
+\chapter{Methodology}
+\label{chap:methodology}
+\input{2_body/methodology.tex}
+
+\chapter{Experiments and Results}
+\label{chap:results}
+\input{2_body/results.tex}
+
+\chapter{Conclusion and Future Work}
+\label{chap:conclusion}
+\input{2_body/conclusion.tex}
+
+\appendix
+\cftaddtitleline{toc}{chapter}{Appendix}{}
+\chapter{Research Proposal}
+\label{apx:proposal}
+\input{3_footer/proprosal.tex}
+
+\input{3_footer/appendix.tex}
+
+\chapter*{Bibliography}
+\label{bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{abbrvnat}
+\setlength{\bibsep}{2pt}
+\let\oldaddcontentsline\addcontentsline% Store \addcontentsline
+\renewcommand{\addcontentsline}[3]{}% Make \addcontentsline a no-op
+\renewcommand{\bibname}{}
+\bibliography{3_footer/references.bib}
+\let\addcontentsline\oldaddcontentsline% Restore \addcontentsline
+
+\end{document}
