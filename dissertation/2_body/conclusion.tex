@@ -1,3 +1,85 @@
 \section{Summary of Contributions}
+\label{sec:summary_of_contributions}
+In this work, we explored the performance of quantum transformer
+models and compared them to classical transformers across several
+experiments. By designing and implementing different quantum
+circuits, including basic and strong VQCs, and employing both
+amplitude and angle encoding techniques, we investigated how quantum
+models can be optimised for natural language processing tasks. Our
+findings revealed that, under certain configurations, quantum models,
+particularly those using amplitude encoding, were able to outperform
+their classical counterparts, aligning with the results of prior studies.
+
+A key focus of this work was the optimisation of training time, an
+important consideration in the practical use of quantum models. By
+refactoring our code and adopting more efficient quantum computing
+frameworks like TensorCircuit with TensorFlow-CUDA, we achieved a
+significant reduction in training time, bringing it down from hours
+per epoch to just minutes. This optimisation was critical in
+demonstrating that quantum models can be trained within a reasonable
+time frame, making them more viable for large-scale tasks.
+
+While the results are promising, there are still challenges to
+address, particularly in stabilising the training process for some
+quantum models. The early spikes in validation loss, especially for
+models using strong VQC and amplitude encoding, highlight areas where
+further optimisation is needed. Additionally, our exploration of
+encoding methods showed that quantum models can benefit from
+different approaches depending on the layer, which opens avenues for
+future work.
+
+In summary, this work contributes to the growing field of quantum
+machine learning by demonstrating that with careful design and
+optimisation, quantum models can match or even exceed the performance
+of classical models in specific tasks, all while reducing the
+required training time. Future efforts will focus on further refining
+these models, exploring more advanced quantum circuits, and testing
+their generalisability across a wider range of datasets and tasks.
 
 \section{Future Work}
+\label{sec:future_work}
+Building on the results of this study, there are several avenues for
+further research and optimisation. One promising direction is the
+superior performance observed in models using amplitude encoding,
+which suggests potential improvements for future quantum
+architectures. Specifically, replacing the angle encoding in the
+first transformer block layer with amplitude encoding could offer
+significant benefits. This modification would allow the removal of
+the encoding layer that reduces the input dimension from 768 to
+\(2^8\) (256), and instead, the entire input dimension of 768 could
+be directly passed into the quantum circuit using amplitude encoding.
+To achieve this, we would require 10 qubits to handle 1024 values,
+with zero-padding applied where necessary to match this size. For
+subsequent layers, where the input dimension is reduced to 10, angle
+encoding would still be a viable approach.
+
+Further optimisation could also involve incorporating a Hadamard gate
+before the angle encoding in these subsequent layers. This adjustment
+could improve the expressibility of the quantum circuits, enabling
+them to capture more complex relationships within the data, as
+demonstrated by~\citet{Sim_2019}. Additionally, replacing the CNOT
+gates in the VQC with parameterised controlled rotation gates could
+further enhance expressibility and allow the circuits to better model
+intricate patterns in the data~\cite{chu2022qmlp}. These changes
+could potentially address the initial instability observed in the
+quantum models during training, particularly for those using strong
+VQC and amplitude encoding.
+
+In addition to these architectural improvements, there is potential
+to explore replacing the classical multi-layer perceptron (MLP)
+components with a quantum MLP. One approach is to replace the ReLU
+activation function with a quantum equivalent or to apply input
+re-uploading technique~\cite{chu2022qmlp}, where the original input
+or the ReLU output
+is angle-encoded between two VQC layers. This would introduce
+non-linearity into the quantum model, enhancing its capacity to learn
+more complex representations. Such changes could further refine the
+hybrid quantum-classical models and lead to more robust performance
+improvements.
+
+These proposed modifications will not only build upon the gains seen
+in the current study but also push the boundaries of quantum machine
+learning by leveraging advanced quantum circuits and non-linear
+transformations. The next steps will involve implementing these ideas
+and conducting experiments to assess their impact on model
+performance and training stability.

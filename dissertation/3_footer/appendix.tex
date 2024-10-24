@@ -1,5 +1,62 @@
-\chapter{Pseudo Code}
-
-\chapter{Training Speed Analysis}
-
 \chapter{User Manual}
+\label{chap:manual}
+
+\section{Installation}
+\label{sec:installation}
+
+To set up the required dependencies for this project, follow these steps:
+
+\begin{enumerate}
+  \item First, install all dependencies listed in the
+    \texttt{requirements.txt} file by running the following command:
+
+    \begin{lstlisting}[language=bash]
+pip install -r requirements.txt
+    \end{lstlisting}
+
+    If the installation fails, you may need to install some
+    dependencies manually.
+
+  \item For the PyTorch environment, manually install the required
+    packages by running the following commands:
+
+    \begin{lstlisting}[language=bash]
+# Install PyTorch with CUDA support
+pip install torch torchvision torchaudio --index-url \
+  https://download.pytorch.org/whl/cu124
+
+# Install other essential packages
+pip install -U pennylane scikit-learn tqdm \
+  seaborn ipykernel nbconvert papermill
+
+# Install TensorCircuit
+pip install tensorcircuit
+
+# Install Hugging Face tools
+pip install datasets transformers accelerate
+
+# Install additional quantum and LaTeX-related tools
+pip install -U qiskit cirq pylatexenc
+    \end{lstlisting}
+
+  \item To install TensorFlow, use the following commands:
+
+    \begin{itemize}
+      \item \textbf{CPU version:}
+        \begin{lstlisting}[language=bash]
+pip install tensorflow
+        \end{lstlisting}
+
+      \item \textbf{GPU version:}
+        \begin{lstlisting}[language=bash]
+pip install tensorflow[and-cuda]
+        \end{lstlisting}
+    \end{itemize}
+
+\end{enumerate}
+
+\noindent\textit{Note:} TensorCircuit relies on Qiskit to render
+quantum circuit diagrams.
+
+By following these steps, you should have all the required packages
+installed to run the project smoothly.

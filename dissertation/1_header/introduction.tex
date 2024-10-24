@@ -2,7 +2,7 @@
 \label{sec:motivations}
 Over the past few decades, the exponential growth of deep learning
 has led to groundbreaking advancements that have not only transformed
-computer science but have also permeated numerous other disciplines
+computer science and permeated numerous other disciplines
 and industries. The profound impact of deep learning is evident in
 its integration into various aspects of daily life—from enhancing
 virtual assistants and powering autonomous vehicles to
@@ -152,7 +152,7 @@ The primary objectives of this study are outlined as follows:
     Reproduce Existing Results}
 
     To conduct a thorough comparison between quantum and classical
-    transformer models, focusing on accuracy, \gls{AUC}, and computational
+    transformer models, focusing on accuracy and computational
     resources. This includes an effort to reproduce results from
     recent studies to assess the performance and potential benefits
     of quantum circuits in these models.
@@ -179,8 +179,34 @@ intelligence in the quantum era.
 
 \section{Our Contributions}
 \label{sec:contributions}
+This research makes several key contributions to the integration and
+optimisation of quantum transformer models. First, we designed and
+implemented \glspl{VQC} within transformer
+architectures, exploring both basic and strong \gls{VQC} layers. By using
+these quantum circuits to process classical word embeddings into
+quantum states, we experimented with different encoding strategies,
+such as amplitude encoding and angle encoding. This work provides
+valuable insights into how quantum circuits can be effectively
+integrated with classical transformer models, showcasing the
+potential of quantum-enhanced natural language processing.
 
-TODO: This research makes several key contributions to the field of quantum...
+Another important contribution of this work is the extensive
+comparison between quantum and classical transformer models. Through
+detailed experimentation, we demonstrated that quantum models,
+particularly those employing amplitude encoding, can outperform
+classical models in specific tasks. This finding not only aligns with
+existing research but also provides compelling evidence that, when
+properly optimised, quantum architectures can exceed the performance
+of traditional classical transformers, highlighting their potential
+in machine learning applications.
+
+Finally, a significant focus of this study was on reducing the
+training time for quantum models, which is often a challenge in
+practical applications. By adopting the TensorCircuit framework with
+TensorFlow CUDA, we were able to drastically reduce training times
+from several hours per epoch to just minutes. These optimisations
+make quantum models more feasible for large-scale tasks, furthering
+the practical application of quantum computing in machine learning.
 
 \subsection{Open Source Code Contributions}
 \label{subsec:open_source_code_contributions}
@@ -212,29 +238,33 @@ This dissertation is structured as follows:
 
   \item \textbf{\hyperref[chap:methodology]{Chapter 3: Methodology}}
 
-    The methodology outlines the research design, data collection,
-    and the detailed implementation of both classical and quantum
-    transformers. The approaches for training and evaluating these
-    models are also described.
+    The methodology outlines the research design, data collection
+    methods, and experimental setup. Furthermore, it describes the
+    implementation of both classical and quantum transformer models,
+    including the specific architectures, encoding techniques, and
+    optimisations employed. The chapter concludes with a description
+    of the evaluation metrics used to compare the performance of the model.
 
   \item \textbf{\hyperref[chap:results]{Chapter 4: Experiments and Results}}
 
-    This chapter details the experimental setup, describes the
-    conducted experiments, and presents the results of the quantum
-    and classical transformer models. The performance metrics and
-    analysis of the models are also discussed in this section.
+    In this chapter, the experiments conducted on both classical and
+    quantum transformers are presented. The results of these
+    experiments, including the performance metrics, are thoroughly
+    analysed. Comparisons between the classical and quantum models
+    are made, with a focus on the effectiveness of different quantum
+    circuits, encoding methods, and training optimisations. The
+    chapter also addresses the primary research questions posed in this study.
 
   \item \textbf{\hyperref[chap:conclusion]{Chapter 5: Conclusion and
     Future Work}}
 
-    The conclusion summarises the key contributions of this research,
-    reflecting on the outcomes of the experiments and the broader
-    implications for the field of quantum machine learning. The
+    The conclusion summarises the key findings of the research,
+    reflecting on the contributions made towards the development and
+    optimisation of quantum transformer models. The
     chapter also outlines potential directions for future research.
 
   \item \textbf{\hyperref[apx:proposal]{Appendices}}
 
     The appendices include supplementary materials such as the
-    research proposal, pseudo code, and a detailed analysis of the
-    training speed of the models.
+    research proposal and user manual.
 \end{enumerate}
